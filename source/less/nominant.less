@@ -1,0 +1,238 @@
+.nominant__hidden {
+  display: none;
+}
+
+.nominant {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  margin-top: 40px;
+
+}
+
+.nominant__category {
+  background-color: @junior;
+  border: none;
+  color: @white;
+  width: 100px;
+  flex: 0 0 100px;
+  border-radius: 5px;
+  // padding: 20px;
+  margin-right: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 10px;
+  // p {
+  //   margin: 0;
+  // }
+  &--younger {
+    background-color: @younger;
+
+  }
+}
+
+// .nominant__categoryBtn {
+//
+// }
+
+
+.nominant__info {
+  display: flex;
+  background-color: @white;
+  border-radius: 5px;
+  box-shadow: @shadow;
+  flex: 1 0 auto;
+  min-height: 150px;
+  max-width: 443px;
+}
+
+.nominant__label {
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  cursor: pointer;
+  background-color: @streetdance;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 0;
+  width: 20px;
+  max-height: 150px;
+  color: @white;
+  // display: inline-block;
+  // overflow: hidden;
+  // width: 16px;
+  // display: flex;
+  // justify-content: flex-end;
+  position: relative;
+
+
+}
+
+.nominant__labeltext {
+  transform: rotate(180deg);
+  margin: 0;
+  // display: inline-block;
+  white-space: nowrap;
+  // transform:  rotate(-90deg);
+  // transform: translate(0,100%) rotate(-90deg);
+  // transform-origin: 0 0;
+  // vertical-align: middle;
+  // text-align: center;
+  // position: relative;
+
+
+
+  font-weight: 700;
+  writing-mode: vertical-rl;
+  // display: inline-block;
+
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+
+  position: absolute;
+  bottom: 20px;
+  // top: 20px;
+  left: 10px;
+}
+.nominant__labeltext::after {
+  // position: absolute;
+  content: "";
+  float: left;
+  margin-top: 100%;
+}
+
+.nominant__wrap {
+  padding: 10px 20px;
+
+}
+
+.nominant__onlinePerformanceId {
+
+}
+
+.nominant__performanceTitle {
+
+}
+
+.nominant__teamTitle {
+
+}
+
+.nominant__total {
+  margin-left: 20px;
+  width: 190px;
+  flex: 0 0 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+
+}
+
+.nominant__amount {
+  display: flex;
+  // justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  background-color: @white;
+  border-radius: 5px;
+  box-shadow: @shadow;
+  padding: 10px;
+  border: 1px solid @grey;
+  min-height: 36px;
+
+}
+
+.nominant__rating {
+  margin: 0;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+
+}
+
+.nominant__buttonmore {
+  background-color: @white;
+  color: @black;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: normal;
+  border-radius: 5px;
+  border: 1px solid @grey;
+
+}
+
+
+.nominant__extra {
+  margin-left: 20px;
+  border: 1px solid @grey;
+  background-color: @white;
+  border-radius: 5px;
+  box-shadow: @shadow;
+  padding: 20px;
+  width: 160px;
+  flex: 0 0 160px;
+  p {
+    margin: 0;
+    color: @grey;
+    font-size: 12px;
+    line-height: 14px;
+  }
+}
+
+.nominant__change {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  justify-content: space-between;
+
+
+}
+
+.nominant__buttonchange {
+  position: relative;
+  box-shadow: @shadow;
+  width: 50px;
+  height: 50px;
+  border: 1px solid @grey;
+  background-color: @white;
+  &::before {
+    content: "";
+    position: absolute;
+    // z-index: 15;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background-image: url("../img/arrow_big_grey.svg");
+    background-size: 20px 25px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+  &:hover {
+    background-color: @white;
+  }
+  &:hover::before {
+    background-image: url("../img/arrow_big.svg");
+
+  }
+  &--up::before {
+    transform: rotate(180deg);
+  }
+}
+
+.nominant__show {
+  box-shadow: @shadow;
+  border: 1px solid @grey;
+  background-color: @white;
+  padding: 20px;
+  margin: 40px auto;
+  display: block;
+  border-radius: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+
+}

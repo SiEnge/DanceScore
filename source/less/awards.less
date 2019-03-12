@@ -1,0 +1,154 @@
+.awards {
+  background-color: @white;
+  box-shadow: @shadow;
+  border-radius: 5px;
+  border: 1px solid @grey;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  position: relative;
+}
+
+.awards__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  min-height: 55px;
+}
+
+.awards__item {
+  width: 45px;
+  height: 55px;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  cursor: pointer;
+  &[data-prize-id="1"] {
+    background-image: url("../img/Grand_prix_grey.svg");
+    background-size: 44px 41px;
+    &:hover {
+      background-image: url("../img/Grand_prix.svg");
+    }
+  }
+  &[data-prize-id="2"] {
+    background-image: url("../img/medal_1_grey.svg");
+    background-size: 27px 41px;
+    &:hover {
+      background-image: url("../img/medal_1.svg");
+    }
+  }
+  &[data-prize-id="3"] {
+    background-image: url("../img/medal_2_grey.svg");
+    background-size: 27px 41px;
+    &:hover {
+      background-image: url("../img/medal_2.svg");
+    }
+  }
+  &[data-prize-id="4"] {
+    background-image: url("../img/medal_3_grey.svg");
+    background-size: 27px 41px;
+    &:hover {
+      background-image: url("../img/medal_3.svg");
+    }
+  }
+  &[data-prize-id="5"] {
+    background-image: url("../img/diplomant_1_grey.svg");
+    background-size: 37px 41px;
+    &:hover {
+      background-image: url("../img/diplomant_1.svg");
+    }
+  }
+  &[data-prize-id="6"] {
+    background-image: url("../img/diplomant_2_grey.svg");
+    background-size: 37px 41px;
+    &:hover {
+      background-image: url("../img/diplomant_2.svg");
+    }
+  }
+  &[data-prize-id="7"] {
+    background-image: url("../img/diplomant_3_grey.svg");
+    background-size: 37px 41px;
+    &:hover {
+      background-image: url("../img/diplomant_3.svg");
+    }
+  }
+
+  &:first-child .awards__message {
+    left: -10px;
+    margin-left: auto;
+  }
+  &:last-child .awards__message {
+    left: auto;
+    right: -10px;
+    margin-left: auto;
+  }
+  &:hover .awards__message {
+    opacity: 1;
+    transform: translateY(-48px);
+  }
+}
+
+.awards__item[data-prize-status="many"] {
+  .awards__total,
+  .awards__message {
+    background-color: @rose;
+  }
+}
+
+.awards__item[data-prize-status="few"] {
+  .awards__total,
+  .awards__message {
+    background-color: @blue;
+  }
+}
+
+.awards__item[data-prize-status="ok"] {
+  .awards__total,
+  .awards__message {
+    background-color: @turquoise;
+  }
+}
+
+.awards__total {
+  position: absolute;
+  top: 1px;
+  right: -13px;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: @grey;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 30px;
+  text-align: center;
+  color: @white;
+  // font-weight: 700;
+}
+
+.awards__message {
+  overflow: hidden;
+  position: absolute;
+  width: 130px;
+  height: 28px;
+  color: @white;
+  font-size: 12px;
+  line-height: 14px;
+  top: 0;
+  opacity: 0;
+  z-index: -1;
+  left: 50%;
+  margin-left: -70px;
+  border-radius: 5px;
+  background-color: @grey;
+  padding: 10px 5px;
+  transform: translateX(0);
+  transition: 0.5s;
+  p {
+    margin: 0;
+  }
+}
+
+.awards__amount {
+  font-weight: 700;
+}

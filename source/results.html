@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DanceScore</title>
+  <!-- <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon"> -->
+  <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+</head>
+
+<body class="page page--grey">
+
+  <header class="header">
+    <div class="header__message" data-errormessage-status="hide">
+      <p>Проверьте количество назначенных наград!</p>
+    </div>
+    <section class="header__wrap container">
+      <div class="header__logo">
+        <a href="index.html"><img src="img/logo_justCreate.svg" alt="Логотип «Только твори»"></a>
+      </div>
+      <nav class="header__nav nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--event"><a href="#">Мероприятия</a></li>
+          <li class="nav__item nav__item--team"><a href="#">Коллективы</a></li>
+          <li class="nav__item nav__item--users"><a href="#">Пользователи</a></li>
+          <li class="nav__item nav__item--privat">
+            <a href="#">
+              <p class="nav__avatar">
+                <img src="" alt="">
+                <!-- <img src="" alt="Фото пользователя"> -->
+              </p>
+              Личный кабинет
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <section class="header__user user">
+        <ul class="user__list">
+          <li class="user__item user__item--wallet"><a href="#"><span class="visuallyhidden">Кошелек</span></a></li>
+          <li class="user__item user__item--message"><a href="#"><span class="visuallyhidden">Сообщения</span></a></li>
+          <li class="user__item user__item--alert"><a href="#"><span class="visuallyhidden">Оповещения</span></a> </li>
+          <li class="user__item user__item--more"><a href="#"><span class="visuallyhidden">Больше информации</span></a></li>
+        </ul>
+      </section>
+    </section>
+  </header>
+
+  <main class="page__flex container">
+    <section class="menu menu--opened">
+      <ul class="menu__list">
+        <li class="menu__item menu__item--myevent menu__item--active"><a href="#">Мои мероприятия</a></li>
+        <li class="menu__item menu__item--myroles menu__item--sub"><a href="#">Мои роли</a>
+          <ul class="menu__sublist">
+            <li class="menu__subitem"><a href="#">Владелец мероприятия</a></li>
+            <li class="menu__subitem"><a href="#">Администратор</a></li>
+            <li class="menu__subitem"><a href="#">Судья</a></li>
+            <li class="menu__subitem"><a href="#">Руководитель коллектива</a></li>
+            <li class="menu__subitem"><a href="#">Участник коллектива</a></li>
+            <li class="menu__subitem"><a href="#">Ведущий</a></li>
+            <li class="menu__subitem"><a href="#">Хостес</a></li>
+            <li class="menu__subitem"><a href="#">Звукооператор</a></li>
+            <li class="menu__subitem"><a href="#">Подрядчик</a></li>
+            <li class="menu__subitem"><a href="#">Наблюдатель</a></li>
+          </ul>
+        </li>
+        <li class="menu__item menu__item--add menu__item--sub"><a href="#">Создать</a>
+          <ul class="menu__sublist">
+            <li class="menu__subitem"><a href="#">Новое мероприятие</a></li>
+            <li class="menu__subitem"><a href="#">Новый коллектив</a></li>
+            <li class="menu__subitem"><a href="#">Новую услугу подрядчика</a></li>
+          </ul>
+        </li>
+        <li class="menu__item menu__item--calendar"><a href="#">Календарь занятости</a></li>
+        <li class="menu__item menu__item--portfolio"><a href="#">Портфолио</a></li>
+        <li class="menu__item menu__item--setting"><a href="#">Настройки</a></li>
+        <li class="menu__item menu__item--instruction"><a href="#">Инструкции по сервису</a></li>
+        <li class="menu__item menu__item--support menu__item--sub"><a href="#">Помощь</a>
+          <div class="menu__sublist">
+            <section class="menu__support">
+              <p class="menu__title">Бесплатная техподдержка</p>
+              <p class="menu__phone"> +7 900 123 45 67</p>
+              <p class="menu__email">support@justcreate.com</p>
+              <p class="menu__account">Код аккаунта: <span class="menu__accountCode">123456789</span></p>
+              <button class="menu__supportButton" type="button">Создать временный пароль</button>
+            </section>
+          </div>
+        </li>
+      </ul>
+      <button onclick="menuOpen(this)" class="menu__button">Свернуть меню</button>
+    </section>
+
+    <div class="container-flex">
+      <section class="breadcrumbs">
+        <!-- <div class="container--shrink"> -->
+        <ul class="breadcrumbs__list">
+          <li class="breadcrumbs__item"><a href="index.html">Мои мероприятия</a></li>
+          <li class="breadcrumbs__item"><a class="js_contestTitle">Всероссийский АРТ-конкурс "Властелины искусства"</a></li>
+          <li class="breadcrumbs__item">Протокол голосования</li>
+        </ul>
+        <!-- </div> -->
+      </section>
+
+
+      <section class="page-result">
+        <button class="page-result__button button" type="button" name="button">Завершить подведение итогов</button>
+        <div class="page-result__wrap">
+          <h1 class="page-result__title">Подведение итогов</h1>
+          <p class="page-result__text">Если вы завершили подведение итогов, нажмите на одноименную кнопку.</p>
+        </div>
+      </section>
+
+      <div class=" summarizing">
+        <div class="wrap__result wrap__resultFix">
+
+
+          <!-- поле поиска -->
+          <section class="search wrap__result--left">
+            <form class="" method="post">
+              <input class="search__input" type="search" name="" value="" placeholder="Поиск">
+              <button class="search__button" type="submit" name="button"> <span class="visuallyhidden">Начать поиск</span></button>
+            </form>
+          </section>
+
+          <!-- количество наград -->
+          <section class="awards wrap__result--right">
+            <h2 class="visuallyhidden">Награды</h2>
+            <!-- <div class="awards__messageError" data-errormessage-status="hide">
+              <p>Проверьте количество назначенных наград!</p>
+            </div> -->
+            <ul class="awards__list">
+              <li class="awards__item" data-prize-id="1" data-prize-status="base">
+                <span class="awards__total"> <span class="awards__total--selected">0</span>/<span class="awards__total--all">0</span> </span>
+                <div class="awards__message">
+                  <p class="awards__name">Гран-при</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">0</span> из <span class="awards__amount awards__amount--all">0</span></p>
+                </div>
+              </li>
+
+              <!-- <li class="awards__item awards__item--laureat1" data-prize-id="21" data-prize-status="base">
+                <span class="awards__total"> <span class="awards__total--selected">3</span>/<span class="awards__total--all">2</span> </span>
+                <div class="awards__message">
+                  <p class="awards__name">Лауреат 1 степени</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">3</span> из <span class="awards__amount awards__amount--all">2</span></p>
+                </div>
+              </li>
+              <li class="awards__item awards__item--laureat2" data-prize-id="31" data-prize-status="base">
+                <span class="awards__total"> <span class="awards__total--selected">4</span>/<span class="awards__total--all">5</span> </span>
+                <div class="awards__message">
+                  <p class="awards__name">Лауреат 2 степени</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">4</span> из <span class="awards__amount awards__amount--all">5</span></p>
+                </div>
+              </li>
+              <li class="awards__item awards__item--laureat3" data-prize-id="41" data-prize-status="base">
+                <span class="awards__total"> <span class="awards__total--selected">1</span>/<span class="awards__total--all">1</span> </span>
+                <div class="awards__message">
+                  <p class="awards__name">Лауреат 3 степени</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">1</span> из <span class="awards__amount awards__amount--all">1</span></p>
+                </div>
+              </li> -->
+
+              <!-- <li class="awards__item awards__item--diplomant1 awards__item--error">
+                <span class="awards__total">2/1</span>
+                <div class="awards__message">
+                  <p>Дипломант 1 степени</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">2</span> из <span class="awards__amount awards__amount--all">1</span></p>
+                </div>
+              </li>
+              <li class="awards__item awards__item--diplomant2 awards__item--shortfall">
+                <span class="awards__total">1/2</span>
+                <div class="awards__message">
+                  <p>Дипломант 2 степени</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">1</span> из <span class="awards__amount awards__amount--all">2</span></p>
+                </div>
+              </li>
+              <li class="awards__item awards__item--diplomant3 awards__item--ok">
+                <span class="awards__total">1/1</span>
+                <div class="awards__message">
+                  <p>Дипломант 3 степени</p>
+                  <p>Назначено <span class="awards__amount awards__amount--selected">1</span> из <span class="awards__amount awards__amount--all">1</span></p>
+                </div>
+              </li> -->
+            </ul>
+          </section>
+
+
+
+        </div>
+        <div class="wrap__result">
+          <!-- сортировка -->
+          <section class="sorting wrap__result--left">
+            <div class="sorting__wrap">
+              <h2 class="sorting__title">Сортировка</h2>
+              <p class="sorting__choice">В порядке выступления</p>
+            </div>
+            <!-- <button class="sorting__buttonsort" type="button" name="button"><span class="visuallyhidden">Сортировка</span></button> -->
+            <ul class="sorting__list">
+              <li onclick="sortingChoice(this)" class="sorting__item">
+                <p>В порядке выступления</p>
+              </li>
+              <li onclick="sortingChoice(this)" class="sorting__item">
+                <p>По категории</p>
+              </li>
+              <li onclick="sortingChoice(this)" class="sorting__item">
+                <p>По номинации</p>
+              </li>
+              <li onclick="sortingChoice(this)" class="sorting__item">
+                <p>По баллам</p>
+              </li>
+              <li onclick="sortingChoice(this)" class="sorting__item">
+                <p>По назначенному месту</p>
+              </li>
+            </ul>
+          </section>
+
+
+
+          <!-- печать протоколов и дипломов -->
+          <section class="printing wrap__result--right">
+            <button class="printing__button" type="button" name="button">Печать протоколов голосования</button>
+            <button class="printing__button" type="button" name="button">Печать дипломов</button>
+          </section>
+
+        </div>
+      </div>
+
+
+
+      <section class="nominants" data-nominant-count="0">
+        <section class="nominant">
+          <!-- блок Возрастной категории -->
+          <button class="nominant__category">Юниоры</button>
+          <!-- блок информации о номинанте -->
+          <div class="nominant__info">
+            <button class="nominant__label">
+              <p class="nominant__labeltext">танцы</p>
+            </button>
+            <div class="nominant__wrap">
+              <p class="nominant__PerformanceId"># <span class="js_performanceId">93</span></p>
+              <p class="nominant__performanceTitle">Название выступления</p>
+              <p class="nominant__teamTitle">Название коллектива</p>
+            </div>
+          </div>
+          <!-- блок итоговой оценки и номинации -->
+          <div class="nominant__total">
+            <div class="nominant__amount">
+              <p class="nominant__rating">990.0 баллов</p>
+              <!-- <button onclick="openResult(this)" class="nominant__buttonmore button" type="button" name="button">Подробнее</button> -->
+            </div>
+            <div class="nominant__nomination nomination">
+              <p class="nomination__choiceprogramm" data-status="hide" data-prize-id="0"></p>
+              <p class="nomination__choice" data-prize-id-choice="0"></p>
+              <ul class="nomination__list">
+
+                <li onclick="choicePrize(this)" class="nomination__item" data-prize-id="1">
+                  <p class="nomination__name">Гран-при</p>
+                </li>
+
+                <!-- <li onclick="choicePrize(this)" class="nomination__item nomination__item--laureat1" data-prize-id="21">
+                  <p>Лауреат 1 степени</p>
+                </li>
+                <li onclick="choicePrize(this)" class="nomination__item nomination__item--laureat2" data-prize-id="31">
+                  <p>Лауреат 2 степени</p>
+                </li>
+                <li onclick="choicePrize(this)" class="nomination__item nomination__item--laureat3" data-prize-id="41">
+                  <p>Лауреат 3 степени</p>
+                </li> -->
+                <!-- <li onclick="choicePrize(this)" class="nomination__item nomination__item--diplomant1">
+                  <p>Дипломант 1 степени</p>
+                </li>
+                <li onclick="choicePrize(this)" class="nomination__item nomination__item--diplomant2">
+                  <p>Дипломант 2 степени</p>
+                </li>
+                <li onclick="choicePrize(this)" class="nomination__item nomination__item--diplomant3">
+                  <p>Дипломант 3 степени</p>
+                </li> -->
+              </ul>
+            </div>
+          </div>
+          <!-- блок дополнительных призов -->
+          <div class="nominant__extra">
+            <p>Дополнительные места или призы</p>
+          </div>
+          <!-- кнопки перемещения номинантов -->
+          <div class="nominant__change">
+            <button onclick="upPrize(this); return false" class="nominant__buttonchange nominant__buttonchange--up button" type="button" name="button" title="Повысить призовое место"><span class="visuallyhidden">Вверх</span></button>
+            <button onclick="downPrize(this); return false" class="nominant__buttonchange nominant__buttonchange--down button" type="button" name="button" title="Понизить призовое место"><span class="visuallyhidden">Вниз</span></button>
+          </div>
+        </section>
+
+
+      </section>
+
+
+      <button data-count="0" data-all="0" class="nominant__show" type="button" name="button">Показать еще</button>
+
+
+
+
+
+
+
+
+
+
+      <!-- <section class="refereeForm container js_refereeForm">
+      <div class="refereeForm__wrap">
+
+
+        <section class="refereeForm__info info">
+          <div class="info__wrap numbers">
+            <p class="numbers__onlinePerformanceId"># <span class="js_onlinePerformanceId">93</span></p>
+            <p class="numbers__turn"><span class="js_turnId">93</span> из <span span class="js_turnCount">100</span></p>
+          </div>
+          <div class="info__wrap category"> -->
+      <!-- <button class="category__button category__button--junior button" type="button">Юниоры очень длинное название </button> -->
+      <!-- <button class="category__button category__button--streetdance button" type="button">Уличные танцы</button> -->
+      <!-- </div>
+          <p class="info__performanceTitle js_performanceTitle">Название выступления</p>
+          <p class="info__teamTitle js_teamTitle">Название коллектива</p>
+          <div class="info__wrap person">
+            <p class="person__avatar">
+              <img src="" alt="">
+            </p>
+            <p class="person__teamChief js_teamChief">Руководитель коллектива</p>
+          </div>
+        </section>
+        <form class="refereeForm__scoring scoring" method="post">
+          <div class="scoring__field">
+            <div class="scoring__list">
+
+              <div class="scoring__item" onclick="inputActive(this)">
+                <div class="scoring__wrap">
+                  <label class="scoring__name">Идея</label>
+                  <div class="scoring__score">
+                    <input class="scoring__input" type="number" name="1" value="0" min="0" max="150">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="scoring__pop">
+              <p class="scoring__question"></p>
+              <button class="scoring__button button scoring__button--yes" type="button" name="button" value="yes">Да</button>
+              <button class="scoring__button button scoring__button--no" type="button" name="button" value="no">Нет</button>
+            </div>
+          </div>
+          <div class="form__points points form__points--active">
+            <fieldset class="points__item points__item--tens">
+              <div class="points__wrap">
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="10">10</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="20">20</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="30">30</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="40">40</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="50">50</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="60">60</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="70">70</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="80">80</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="90">90</button>
+                <button onclick="checkOnes(this); return false" class="points__nav button">..1,..</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="100">100</button>
+                <button onclick="checkTenths(this); return false" class="points__nav button">..,1</button>
+              </div>
+            </fieldset>
+            <fieldset class="points__item points__item--ones points__item--hidden">
+              <div class="points__wrap">
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="1">1</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="2">2</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="3">3</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="4">4</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="5">5</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="6">6</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="7">7</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="8">8</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="9">9</button>
+                <button onclick="checkTens(this); return false" class="points__nav button">10..,..</button>
+                <button onclick="scoring(this)" class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
+                <button onclick="checkTenths(this); return false" class="points__nav button">..,1</button>
+              </div>
+            </fieldset>
+            <fieldset class="points__item points__item--tenths points__item--hidden">
+              <div class="points__wrap">
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.1">0,1</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.2">0,2</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.3">0,3</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.4">0,4</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.5">0,5</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.6">0,6</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.7">0,7</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.8">0,8</button>
+                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.9">0,9</button>
+                <button onclick="checkTens(this); return false" class="points__nav button">10..,..</button>
+                <button onclick="scoring(this)" class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
+                <button onclick="checkOnes(this); return false" class="points__nav button">..1,..</button>
+              </div>
+            </fieldset>
+          </div>
+          <div class="form__comment">
+            <input onfocusout="setNote(this)" class="form__input js_performanceNote" type="text" name="" value="" placeholder="Введите текст заметки">
+          </div>
+        </form>
+        <div class="refereeForm__nav">
+          <a class="refereeForm__button button">Оценки других судей</a>
+          <a class="refereeForm__button button">Вся программа</a>
+        </div>
+      </div>
+
+    </section> -->
+    </div>
+
+  </main>
+
+  <!-- Футер -->
+
+  <footer class="footer">
+
+  </footer>
+
+  <section class="pop pop--result result">
+    <button class="pop__buttonClose" type="button" name="button"> <span class="visuallyhidden">Закрыть окно</span></button>
+    <div class="result__wrapTitle">
+      <p class="result__id"># <span class="js__">25</span></p>
+      <p class="result__title js__">Название выступления</p>
+    </div>
+
+    <div class="result__list">
+
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Костюм</label>
+          <!-- <div class="result__score"> -->
+          <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          <!-- </div> -->
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Идея</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Музыка</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Креатив</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Идея</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Музыка</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Креатив</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <input class="result__note" type="text" name="" value="Уточнить мнение коллег">
+
+    <div class="result__list--referee">
+
+      <div class="result__item">
+        <p class="result__referee">Игорь Миронов</p>
+        <span class="result__count">11</span>
+        <p class="result__referee">Илья Павлов</p>
+        <span class="result__count">12</span>
+        <p class="result__referee">Галина Луговая</p>
+        <span class="result__count">13</span>
+        <span class="result__point">10</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">21</span>
+        <span class="result__count">22</span>
+        <span class="result__count">23</span>
+        <span class="result__point">20</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">31</span>
+        <span class="result__count">32</span>
+        <span class="result__count">33</span>
+        <span class="result__point">30</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">41</span>
+        <span class="result__count">42</span>
+        <span class="result__count">43</span>
+        <span class="result__point">40</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">21</span>
+        <span class="result__count">22</span>
+        <span class="result__count">23</span>
+        <span class="result__point">20</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">31</span>
+        <span class="result__count">32</span>
+        <span class="result__count">33</span>
+        <span class="result__point">30</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">41</span>
+        <span class="result__count">42</span>
+        <span class="result__count">43</span>
+        <span class="result__point">40</span>
+      </div>
+
+    </div>
+    <p class="result__total">Итого: 600.0 баллов</p>
+
+
+
+
+
+  </section>
+
+  <section class="pop pop--password ">
+    <button class="pop__buttonClose" type="button" name="button"> <span class="visuallyhidden">Закрыть окно</span></button>
+    <p class="pop__title">Ваш временный пароль</p>
+    <div class="pop__password">
+      <span class="js__password">045893</span>
+      <button class="pop__btnCopy" type="button" name="button" title="Скопировать пароль в буфер обмена"> <span class="visuallyhidden">Скопировать пароль в буфер обмена</span></button>
+    </div>
+
+    <p class="pop__text">Действует до <span class="js__validity">12 января 2019г.</span></p>
+    <p class="pop__info">Не сообщайте этот пароль никому, кроме службы поддержки.</p>
+  </section>
+
+
+  <div class="overlay"></div>
+
+
+  <!-- <script src="js/jquery.maskedinput.min.js"></script> -->
+  <script src="js/ajax.js"></script>
+  <script src="slick/slick.js"></script>
+  <script src="js/script.js"></script>
+  <!-- <script src="js/picturefill.js"></script> -->
+
+</body>
+
+</html>

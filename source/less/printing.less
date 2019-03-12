@@ -1,0 +1,30 @@
+.printing {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.printing__button {
+  position: relative;
+  background-color: @white;
+  color: @black;
+  text-transform: uppercase;
+  padding: 20px;
+  padding-left: 50px;
+  border: 1px solid @grey;
+  font-size: 12px;
+  line-height: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  &::before {
+    left: 20px;
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url("../img/print.svg");
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: center;
+  }
+}

@@ -1,0 +1,95 @@
+.pop {
+  width: 220px;
+  background-color: @white;
+  position: fixed;
+  top: 20vh;
+  z-index: 200;
+  left: 50%;
+  // margin-left: -100px;
+  border-radius: 5px;
+  box-shadow: @shadow;
+  padding: 25px 30px;
+  font-size: 12px;
+  line-height: 16px;
+  color: @black;
+  // position: relative;
+  display: none;
+  &--active {
+    display: block;
+  }
+  &--result {
+    width: 700px;
+    margin-left: -350px;
+    padding: 25px 40px;
+  }
+}
+
+.pop__title {
+  font-size: 14px;
+  margin: 0;
+  color: @dark-grey;
+  padding-bottom: 20px;
+}
+
+.pop__password {
+  display: flex;
+  align-items: center;
+  // position: relative;
+  padding-bottom: 5px;
+  span {
+    font-size: 16px;
+    line-height: 22px;
+    // margin: 0;
+
+  }
+}
+
+.pop__btnCopy {
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background-image: url("../img/copy_grey.svg");
+  background-size: 18px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 10px;
+  &:hover {
+    background-image: url("../img/copy.svg");
+  }
+}
+
+.pop__text {
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.pop__info {
+  color: @dark-grey;
+  margin: 0;
+}
+
+
+.pop__buttonClose {
+  position: absolute;
+  background-color: @white;
+  border: none;
+  padding: 0;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-image: url("../img/close_grey.svg");
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  &:hover {
+    background-image: url("../img/close.svg");
+
+  }
+}

@@ -1,0 +1,294 @@
+.menu {
+  margin-top: 38px;
+  margin-right: 20px;
+  font-size: 12px;
+  line-height: 14px;
+  background-color: @grey;
+  position: relative;
+  z-index: 20;
+  background-color: @white;
+  border-radius: 10px;
+  box-shadow: @shadow;
+  &--opened {
+    transition: width 0.5s;
+    width: 255px;
+    flex: 0 0 255px;
+  }
+  &--closed {
+    width: 100px;
+    flex: 0 0 100px;
+    .menu__item {
+      font-size: 0;
+    }
+    .menu__button {
+      font-size: 0;
+      &:hover::before {
+        background-image: url("../img/menu_close.svg");
+      }
+      &::before {
+        background-image: url("../img/menu_close_grey.svg");
+      }
+    }
+  }
+}
+
+
+
+.menu__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  // position: relative;
+
+}
+
+.menu__item {
+  // z-index: 20;
+  min-height: 60px;
+  position: relative;
+  border-bottom: 1px solid @light-grey;
+  background-color: @white;
+  a {
+
+    display: block;
+    padding-top: 23px;
+    padding-bottom: 23px;
+    padding-left: 80px;
+    padding-right: 20px;
+    color: @black;
+    text-decoration: none;
+
+  }
+  &::before {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 40px;
+    left: 20px;
+    top: 50%;
+    margin-top: -20px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  &--sub::after {
+    content: "";
+    position: absolute;
+    z-index: 13;
+    right: 10px;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/arrow_grey.svg");
+    background-size: 15px 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transform: rotate(-90deg);
+  }
+  &--myevent::before {
+    background-image: url("../img/my-event_grey.svg");
+    background-size: 38px 40px;
+  }
+  &--myroles::before {
+    background-image: url("../img/my-roles_grey.svg");
+    background-size: 26px 38px;
+  }
+  &--add::before {
+    background-image: url("../img/add_grey.svg");
+    background-size: 24px 36px;
+  }
+  &--calendar::before {
+    background-image: url("../img/calendar_grey.svg");
+    background-size: 33px 32px;
+  }
+  &--portfolio::before {
+    background-image: url("../img/portfolio_grey.svg");
+    background-size: 20px 40px;
+  }
+  &--setting::before {
+    background-image: url("../img/setting_grey.svg");
+    background-size: 34px 34px;
+  }
+  &--instruction::before {
+    background-image: url("../img/instruction_grey.svg");
+    background-size: 36px 40px;
+  }
+  &--support::before {
+    background-image: url("../img/support_grey.svg");
+    background-size: 35px 38px;
+  }
+
+  &--myevent:hover::before {
+    background-image: url("../img/my-event.svg");
+  }
+  &--myroles:hover::before {
+    background-image: url("../img/my-roles.svg");
+  }
+  &--add:hover::before {
+    background-image: url("../img/add.svg");
+  }
+  &--calendar:hover::before {
+    background-image: url("../img/calendar.svg");
+  }
+  &--portfolio:hover::before {
+    background-image: url("../img/portfolio.svg");
+  }
+  &--setting:hover::before {
+    background-image: url("../img/setting.svg");
+  }
+  &--instruction:hover::before {
+    background-image: url("../img/instruction.svg");
+  }
+  &--support:hover::before {
+    background-image: url("../img/support.svg");
+  }
+  &:hover {
+    background-color: @light-turquoise;
+  }
+
+  &:hover .menu__sublist {
+    // display: block;
+    // z-index: 20;
+    visibility: visible;
+    left: 100%;
+
+  }
+
+}
+
+
+.menu__sublist {
+  position: absolute;
+  z-index: -1;
+  top: -61px;
+  left: 0;
+  width: 255px;
+  font-size: 12px;
+  line-height: 14px;
+  visibility: hidden;
+  // display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: @white;
+  border-radius: 5px;
+  box-shadow: @shadow;
+  transition: left 0.5s;
+  border-left: 1px solid @light-grey;
+
+}
+
+.menu__subitem {
+  border-bottom: 1px solid @light-grey;
+
+  position: relative;
+  a {
+    padding-left: 30px;
+
+  }
+  &:hover {
+    background-color: @light-turquoise;
+  }
+}
+
+.menu__button {
+  min-height: 60px;
+  position: relative;
+  background: @white;
+  border: none;
+  padding-top: 23px;
+  padding-bottom: 23px;
+  padding-left: 80px;
+  padding-right: 20px;
+  color: @dark-grey;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  &:hover {
+    background-color: @light-turquoise;
+  }
+  &:hover::before {
+    background-image: url("../img/menu.svg");
+  }
+  &::before {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 40px;
+    left: 20px;
+    top: 50%;
+    margin-top: -20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("../img/menu_grey.svg");
+    background-size: 24px 20px;
+  }
+}
+
+.menu__support {
+  padding: 20px;
+  color: @black;
+}
+
+.menu__title {
+  color: @dark-grey;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.menu__phone {
+  margin: 0;
+  padding-left: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 30px;
+    left: 0;
+    top: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("../img/phone.svg");
+    background-size: 23px 23px;
+  }
+}
+
+.menu__email {
+  margin: 0;
+  padding-left: 40px;
+  // padding-top: 10px;
+  padding-bottom: 30px;
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 30px;
+    left: 0;
+    top: 0;
+    // margin-top: -25px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-image: url("../img/email.svg");
+    background-size: 23px 17px;
+  }
+}
+
+.menu__account {
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.menu__supportButton {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: @turquoise;
+  cursor: pointer;
+  &:hover {
+    color: @blue;
+  }
+}

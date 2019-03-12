@@ -1,0 +1,68 @@
+.user__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+
+}
+
+.user__item {
+  border-right: 1px solid @light-grey;
+  display: flex;
+  flex: 1 0 auto;
+  color: @black;
+  padding: 20px;
+  display: block;
+  background-color: @white;
+  // border: 1px solid @grey;
+  // height: 20px;
+  // width: 20px;
+  position: relative;
+  cursor: pointer;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: auto;
+    bottom: auto;
+    // left: auto;
+    // right: auto;
+
+  }
+  &--wallet::before {
+    background-image: url("../img/wallet_grey.svg");
+    background-size: 40px 40px;
+  }
+  &--message::before {
+    background-image: url("../img/message_grey.svg");
+    background-size: 40px 36px;
+  }
+  &--alert::before {
+    background-image: url("../img/alert_grey.svg");
+    background-size: 36px 38px;
+  }
+  &--more::before {
+    background-image: url("../img/more_grey.svg");
+    background-size: 25px 14px;
+  }
+  &:hover {
+    background-color: @light-turquoise;
+  }
+  &--wallet:hover::before {
+    background-image: url("../img/wallet.svg");
+  }
+  &--message:hover::before {
+    background-image: url("../img/message.svg");
+  }
+  &--alert:hover::before {
+    background-image: url("../img/alert.svg");
+  }
+  &--more:hover::before {
+    background-image: url("../img/more.svg");
+  }
+}

@@ -1,0 +1,302 @@
+.nomination {
+  background-color: @white;
+  position: relative;
+  box-shadow: @shadow;
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: 13;
+    right: 10px;
+    top: 18px;
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/arrow_grey.svg");
+    background-size: 15px 8px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+  &:hover .nomination__list {
+    display: block;
+    z-index: 15;
+  }
+  &:hover .nomination__choice {
+    // display: block;
+    z-index: 25;
+  }
+  &[data-status="hide"] {
+    display: none;
+  }
+  &[data-status="show"] {
+    display: block;
+  }
+
+}
+
+.nomination__choice {
+  position: relative;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 28px;
+  margin: 0;
+  border-radius: 5px;
+  border: 1px solid @grey;
+  background-color: @white;
+  z-index: 10;
+  cursor: pointer;
+  &:hover {
+    // background-color: @light-turquoise;
+  }
+}
+
+.nomination__choiceprogramm {
+  font-size: 12px;
+  line-height: 14px;
+  color: @white;
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  background-color: @dark-grey;
+  font-weight: 700;
+  padding-top: 8px;
+  padding-left: 25px;
+  padding-bottom: 40px;
+  padding-right: 20px;
+  width: 140px;
+  height: 10px;
+  margin: 0;
+  border-radius: 5px;
+  &[data-status="show"] {
+    display: block;
+  }
+  &[data-status="hide"] {
+    display: none;
+  }
+}
+
+
+.nomination__list {
+  margin: 0;
+  padding: 0;
+  // padding-top: 4px;
+  top: 52px;
+  width: 188px;
+  background-color: @white;
+
+  list-style: none;
+  position: absolute;
+  border: 1px solid @grey;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  max-height: 174px;
+  overflow-y: scroll;
+  z-index: 5;
+  display: none;
+  // &--opened {
+  //   display: block;
+  //   z-index: 15;
+  // }
+}
+
+.nomination__item {
+  position: relative;
+  font-size: 12px;
+  line-height: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-repeat: no-repeat;
+  background-position: left 5px center;
+  cursor: pointer;
+  &:hover {
+    background-color: @light-turquoise;
+    p {
+      border-bottom-color: @light-turquoise;
+    }
+  }
+  p {
+    padding-left: 30px;
+    padding-right: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin: 0;
+    border-bottom: 2px solid @light-grey;
+    cursor: pointer;
+  }
+  &:last-child p {
+    border-bottom: none;
+  }
+  &[data-prize-id="1"] {
+    background-image: url("../img/Grand_prix_grey.svg");
+    background-size: 30px;
+    &:hover {
+      background-image: url("../img/Grand_prix.svg");
+    }
+  }
+  &[data-prize-id="2"] {
+    background-image: url("../img/medal_1_grey.svg");
+    background-size: 22px;
+    &:hover {
+      background-image: url("../img/medal_1.svg");
+    }
+  }
+  &[data-prize-id="3"] {
+    background-image: url("../img/medal_2_grey.svg");
+    background-size: 22px;
+    &:hover {
+      background-image: url("../img/medal_2.svg");
+    }
+  }
+  &[data-prize-id="4"] {
+    background-image: url("../img/medal_3_grey.svg");
+    background-size: 22px;
+    &:hover {
+      background-image: url("../img/medal_3.svg");
+    }
+  }
+  &[data-prize-id="5"] {
+    background-image: url("../img/diplomant_1_grey.svg");
+    background-size: 27px;
+    &:hover {
+      background-image: url("../img/diplomant_1.svg");
+    }
+  }
+  &[data-prize-id="6"] {
+    background-image: url("../img/diplomant_2_grey.svg");
+    background-size: 27px;
+    &:hover {
+      background-image: url("../img/diplomant_2.svg");
+    }
+  }
+  &[data-prize-id="7"] {
+    background-image: url("../img/diplomant_3_grey.svg");
+    background-size: 27px;
+    &:hover {
+      background-image: url("../img/diplomant_3.svg");
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form__select {
+    display: block;
+    position: relative;
+    height: 40px;
+    box-sizing: border-box;
+    // border: 1px solid @grey;
+    width: 100%;
+    z-index: 10;
+    font-size: 12px;
+    // color: rgb(117, 117, 117);
+}
+
+.form__select::before {
+    content: attr(placeholder);
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-color: @white;
+    border-radius: 5px;
+    width: 100%;
+
+    height: 100%;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 40px;
+    white-space: nowrap;
+    // color: @dark-grey;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.form__select::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    // top: 2px;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 40px;
+    text-align: center;
+    line-height: 31px;
+    background-color: @white;
+    background-image: url('../img/arrow_blue.svg');
+    background-size: 8px 5px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.form__select .form__option {
+    display: inline-block;
+    min-width: 100%;
+    height: 40px;
+    font-weight: normal;
+    line-height: 40px;
+    white-space: nowrap;
+    padding: 0 10px;
+    background-color: @white;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form__select .form__option-radio,
+.form__select .form__option {
+    display: none;
+}
+
+.form__select .form__select-wrap {
+    min-width: 100%;
+    max-height: 500px;
+    overflow-x: hidden;
+}
+
+.form__select .form__option-radio:checked ~ .form__select-wrap {
+    position: absolute;
+    z-index: 999;
+    overflow-y: auto;
+    border: 1px solid @grey;
+    border-radius: 5px;
+}
+
+.form__select .form__option-radio:checked ~ .form__select-wrap > .form__option,
+.form__select .form__option-radio:checked + .form__option {
+    display: block;
+}
+
+.form__select .form__option-radio:checked ~ .form__select-wrap > .form__option {
+  background-color: @white;
+  border-radius: 0;
+}
+
+.form__select .form__option-radio:checked ~ .form__select-wrap > .form__option:hover {
+    background-color: @light-turquoise;
+    color: @black;
+}
+
+.form__select .form__option-radio:not(:checked) ~ .form__select-wrap > .form__option-radio:checked + .form__option {
+    position: relative;
+    z-index: -1;
+}

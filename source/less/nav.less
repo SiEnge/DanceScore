@@ -1,0 +1,79 @@
+.nav__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.nav__item {
+  position: relative;
+  border-right: 1px solid @light-grey;
+  display: flex;
+  a {
+    color: @black;
+    text-decoration: none;
+    display: block;
+    background-color: @white;
+    padding-top: 30px;
+    padding-left: 80px;
+    padding-right: 25px;
+    padding-bottom: 10px;
+    &:hover {
+      background-color: @light-turquoise;
+    }
+  }
+  &::before {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    margin-top: -23px;
+    left: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  &--event::before {
+    background-image: url("../img/event_grey.svg");
+    background-size: 40px 40px;
+  }
+  &--team::before {
+    background-image: url("../img/team_grey.svg");
+    background-size: 40px 40px;
+  }
+  &--users::before {
+    background-image: url("../img/users_grey.svg");
+    background-size: 30px 36px;
+  }
+  &--privat::before {
+    content: none;
+  }
+  &--event:hover::before {
+    background-image: url("../img/event.svg");
+  }
+  &--team:hover::before {
+    background-image: url("../img/team.svg");
+  }
+  &--users:hover::before {
+    background-image: url("../img/users.svg");
+  }
+}
+
+
+.nav__avatar {
+  position: absolute;
+  left: 20px;
+  display: inline-block;
+  margin: 0;
+  margin-top: -18px;
+  background-color: @grey;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  img {
+    border-radius: 50%;
+    width: 100%;
+  }
+}

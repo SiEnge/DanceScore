@@ -1,0 +1,139 @@
+.refereeForm {
+  border-radius: 10px;
+  background: linear-gradient(45deg, #51ddd4 0%,#66ccff 100%);
+  min-height: 10px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  // padding-left: 15px;
+  padding-left: 5%;
+  // padding-right: 15px;
+  padding-right: 5%;
+  width: 86%;
+  min-width: 290px;
+  // height: 100vh;
+}
+
+
+
+.refereeForm__nav {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.refereeForm__button {
+  margin-right: 10px;
+  &:hover {
+    color: #51ddd4;
+    background-color: white;
+    background-image: none;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+// .refereeForm--hidden {
+//   display: none;
+// }
+
+@media @tablet640 {
+  .refereeForm {
+    width: 92%;
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+
+  .refereeForm__wrap {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .refereeForm__info {
+    width: 48%;
+    flex: 0 0 48%;
+    max-width: 300px;
+    padding-bottom: 62px;
+  }
+
+  .refereeForm__scoring {
+    width: 48%;
+    flex: 0.8 0 48%;
+
+  }
+
+  .refereeForm__nav {
+    position: absolute;
+    width: 48%;
+    flex: 0 0 48%;
+    max-width: 300px;
+    bottom: 0;
+    left: 0;
+    justify-content: flex-start;
+
+  }
+}
+
+@media @tablet {
+  .refereeForm__nav {
+    // left: 15px;
+  }
+}
+
+@media @desktop850 {
+  .refereeForm {
+    width: 90%;
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+  // .refereeForm__info {
+  //   width: 35%;
+  //   flex: 0 0 35%;
+  //   max-width: 400px;
+  // }
+  //
+  // .refereeForm__scoring {
+  //   width: 63%;
+  //   flex: 0 0 63%;
+  //
+  // }
+  .refereeForm__scoring {
+    flex-grow: 0.9;
+
+  }
+  .refereeForm__info {
+    flex-grow: 0.9;
+    max-width: none;
+
+  }
+
+  .refereeForm__nav {
+    max-width: none;
+  }
+}
+
+@media @desktop1024 {
+  .refereeForm {
+    max-width: 1200px;
+    width: 94%;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+
+  .refereeForm__scoring {
+    flex-grow: 0.9;
+
+  }
+
+  .refereeForm__info,
+  .refereeForm__nav {
+    max-width: 300px;
+
+  }
+}
+
+@media @desktop {
+
+
+}
