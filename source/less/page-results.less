@@ -19,3 +19,27 @@
   text-transform: uppercase;
   // margin: 0;
 }
+
+.page-result__spinner {
+  margin: 0 auto;
+  &[data-status="show"] {
+    display: block;
+  }
+  &[data-status="hide"] {
+    display: none;
+  }
+}
+
+.page-result__loading {
+  height: 50px;
+  &[data-status="show"] {
+    display: block;
+  }
+  &[data-status="hide"] {
+    display: none;
+  }
+}
+
+.page-result__btn {
+  display: none;
+}

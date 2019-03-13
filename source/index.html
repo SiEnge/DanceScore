@@ -31,8 +31,15 @@
                 <img src="" alt="">
                 <!-- <img src="" alt="Фото пользователя"> -->
               </p>
-              Личный кабинет
+              <span class="surname">Иван</span>
+              <span class="lastname">Иванов</span>
+              <!-- Личный кабинет -->
             </a>
+            <ul class="nav__sublist">
+              <li class="nav__subitem">
+                <a href="../index.html">Выход</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -142,49 +149,49 @@
             <div class="form__points points form__points--active">
               <fieldset class="points__item points__item--tens">
                 <div class="points__wrap">
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="10">10</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="20">20</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="30">30</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="40">40</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="50">50</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="60">60</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="70">70</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="80">80</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="90">90</button>
+                  <button class="points__button button" type="button" name="button" value="10">10</button>
+                  <button class="points__button button" type="button" name="button" value="20">20</button>
+                  <button class="points__button button" type="button" name="button" value="30">30</button>
+                  <button class="points__button button" type="button" name="button" value="40">40</button>
+                  <button class="points__button button" type="button" name="button" value="50">50</button>
+                  <button class="points__button button" type="button" name="button" value="60">60</button>
+                  <button class="points__button button" type="button" name="button" value="70">70</button>
+                  <button class="points__button button" type="button" name="button" value="80">80</button>
+                  <button class="points__button button" type="button" name="button" value="90">90</button>
                   <button onclick="checkOnes(this); return false" class="points__nav button">..1,..</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="100">100</button>
+                  <button class="points__button button" type="button" name="button" value="100">100</button>
                   <button onclick="checkTenths(this); return false" class="points__nav button">..,1</button>
                 </div>
               </fieldset>
               <fieldset class="points__item points__item--ones points__item--hidden">
                 <div class="points__wrap">
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="1">1</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="2">2</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="3">3</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="4">4</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="5">5</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="6">6</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="7">7</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="8">8</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="9">9</button>
+                  <button class="points__button button" type="button" name="button" value="1">1</button>
+                  <button class="points__button button" type="button" name="button" value="2">2</button>
+                  <button class="points__button button" type="button" name="button" value="3">3</button>
+                  <button class="points__button button" type="button" name="button" value="4">4</button>
+                  <button class="points__button button" type="button" name="button" value="5">5</button>
+                  <button class="points__button button" type="button" name="button" value="6">6</button>
+                  <button class="points__button button" type="button" name="button" value="7">7</button>
+                  <button class="points__button button" type="button" name="button" value="8">8</button>
+                  <button class="points__button button" type="button" name="button" value="9">9</button>
                   <button onclick="checkTens(this); return false" class="points__nav button">10..,..</button>
-                  <button onclick="scoring(this)" class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
+                  <button class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
                   <button onclick="checkTenths(this); return false" class="points__nav button">..,1</button>
                 </div>
               </fieldset>
               <fieldset class="points__item points__item--tenths points__item--hidden">
                 <div class="points__wrap">
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.1">0,1</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.2">0,2</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.3">0,3</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.4">0,4</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.5">0,5</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.6">0,6</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.7">0,7</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.8">0,8</button>
-                  <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.9">0,9</button>
+                  <button class="points__button button" type="button" name="button" value="0.1">0,1</button>
+                  <button class="points__button button" type="button" name="button" value="0.2">0,2</button>
+                  <button class="points__button button" type="button" name="button" value="0.3">0,3</button>
+                  <button class="points__button button" type="button" name="button" value="0.4">0,4</button>
+                  <button class="points__button button" type="button" name="button" value="0.5">0,5</button>
+                  <button class="points__button button" type="button" name="button" value="0.6">0,6</button>
+                  <button class="points__button button" type="button" name="button" value="0.7">0,7</button>
+                  <button class="points__button button" type="button" name="button" value="0.8">0,8</button>
+                  <button class="points__button button" type="button" name="button" value="0.9">0,9</button>
                   <button onclick="checkTens(this); return false" class="points__nav button">10..,..</button>
-                  <button onclick="scoring(this)" class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
+                  <button class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
                   <button onclick="checkOnes(this); return false" class="points__nav button">..1,..</button>
                 </div>
               </fieldset>

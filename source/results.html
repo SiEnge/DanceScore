@@ -21,7 +21,7 @@
     </div>
     <section class="header__wrap container">
       <div class="header__logo">
-        <a href="index.html"><img src="img/logo_justCreate.svg" alt="Логотип «Только твори»"></a>
+        <a href="../index.html"><img src="img/logo_justCreate.svg" alt="Логотип «Только твори»"></a>
       </div>
       <nav class="header__nav nav">
         <ul class="nav__list">
@@ -34,8 +34,15 @@
                 <img src="" alt="">
                 <!-- <img src="" alt="Фото пользователя"> -->
               </p>
-              Личный кабинет
+              <span class="surname">Иван</span>
+              <span class="lastname">Иванов</span>
+              <!-- Личный кабинет -->
             </a>
+            <ul class="nav__sublist">
+              <li class="nav__subitem">
+                <a href="../index.html">Выход</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -94,7 +101,7 @@
       <button onclick="menuOpen(this)" class="menu__button">Свернуть меню</button>
     </section>
 
-    <div class="container-flex">
+    <div class="container-flex" >
       <section class="breadcrumbs">
         <!-- <div class="container--shrink"> -->
         <ul class="breadcrumbs__list">
@@ -203,16 +210,19 @@
                 <p>В порядке выступления</p>
               </li>
               <li onclick="sortingChoice(this)" class="sorting__item">
-                <p>По категории</p>
+                <p>По возрастной категории</p>
               </li>
               <li onclick="sortingChoice(this)" class="sorting__item">
                 <p>По номинации</p>
               </li>
               <li onclick="sortingChoice(this)" class="sorting__item">
-                <p>По баллам</p>
+                <p>По сумме баллов</p>
               </li>
               <li onclick="sortingChoice(this)" class="sorting__item">
-                <p>По назначенному месту</p>
+                <p>По занятому месту</p>
+              </li>
+              <li onclick="sortingChoice(this)" class="sorting__item">
+                <p>По назначенному вручную месту</p>
               </li>
             </ul>
           </section>
@@ -253,7 +263,7 @@
             </div>
             <div class="nominant__nomination nomination">
               <p class="nomination__choiceprogramm" data-status="hide" data-prize-id="0"></p>
-              <p class="nomination__choice" data-prize-id-choice="0"></p>
+              <p class="nomination__choice" data-prize-id-choice="0">Выберите приз</p>
               <ul class="nomination__list">
 
                 <li onclick="choicePrize(this)" class="nomination__item" data-prize-id="1">
@@ -295,121 +305,22 @@
 
       </section>
 
+      <section class="page-result__loading" data-count="0" data-all="0" data-status="show">
+        <svg class="page-result__spinner spinner" viewBox="0 0 50 50" data-status="show">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
+        <button class="page-result__btn" type="button" name="button">Показать еще</button>
 
-      <button data-count="0" data-all="0" class="nominant__show" type="button" name="button">Показать еще</button>
-
-
-
-
-
-
-
+      </section>
 
 
 
-      <!-- <section class="refereeForm container js_refereeForm">
-      <div class="refereeForm__wrap">
+    </div>
 
-
-        <section class="refereeForm__info info">
-          <div class="info__wrap numbers">
-            <p class="numbers__onlinePerformanceId"># <span class="js_onlinePerformanceId">93</span></p>
-            <p class="numbers__turn"><span class="js_turnId">93</span> из <span span class="js_turnCount">100</span></p>
-          </div>
-          <div class="info__wrap category"> -->
-      <!-- <button class="category__button category__button--junior button" type="button">Юниоры очень длинное название </button> -->
-      <!-- <button class="category__button category__button--streetdance button" type="button">Уличные танцы</button> -->
-      <!-- </div>
-          <p class="info__performanceTitle js_performanceTitle">Название выступления</p>
-          <p class="info__teamTitle js_teamTitle">Название коллектива</p>
-          <div class="info__wrap person">
-            <p class="person__avatar">
-              <img src="" alt="">
-            </p>
-            <p class="person__teamChief js_teamChief">Руководитель коллектива</p>
-          </div>
-        </section>
-        <form class="refereeForm__scoring scoring" method="post">
-          <div class="scoring__field">
-            <div class="scoring__list">
-
-              <div class="scoring__item" onclick="inputActive(this)">
-                <div class="scoring__wrap">
-                  <label class="scoring__name">Идея</label>
-                  <div class="scoring__score">
-                    <input class="scoring__input" type="number" name="1" value="0" min="0" max="150">
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="scoring__pop">
-              <p class="scoring__question"></p>
-              <button class="scoring__button button scoring__button--yes" type="button" name="button" value="yes">Да</button>
-              <button class="scoring__button button scoring__button--no" type="button" name="button" value="no">Нет</button>
-            </div>
-          </div>
-          <div class="form__points points form__points--active">
-            <fieldset class="points__item points__item--tens">
-              <div class="points__wrap">
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="10">10</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="20">20</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="30">30</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="40">40</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="50">50</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="60">60</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="70">70</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="80">80</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="90">90</button>
-                <button onclick="checkOnes(this); return false" class="points__nav button">..1,..</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="100">100</button>
-                <button onclick="checkTenths(this); return false" class="points__nav button">..,1</button>
-              </div>
-            </fieldset>
-            <fieldset class="points__item points__item--ones points__item--hidden">
-              <div class="points__wrap">
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="1">1</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="2">2</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="3">3</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="4">4</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="5">5</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="6">6</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="7">7</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="8">8</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="9">9</button>
-                <button onclick="checkTens(this); return false" class="points__nav button">10..,..</button>
-                <button onclick="scoring(this)" class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
-                <button onclick="checkTenths(this); return false" class="points__nav button">..,1</button>
-              </div>
-            </fieldset>
-            <fieldset class="points__item points__item--tenths points__item--hidden">
-              <div class="points__wrap">
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.1">0,1</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.2">0,2</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.3">0,3</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.4">0,4</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.5">0,5</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.6">0,6</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.7">0,7</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.8">0,8</button>
-                <button onclick="scoring(this)" class="points__button button" type="button" name="button" value="0.9">0,9</button>
-                <button onclick="checkTens(this); return false" class="points__nav button">10..,..</button>
-                <button onclick="scoring(this)" class="points__button button points__button--hidden" type="button" name="button" value="0">0</button>
-                <button onclick="checkOnes(this); return false" class="points__nav button">..1,..</button>
-              </div>
-            </fieldset>
-          </div>
-          <div class="form__comment">
-            <input onfocusout="setNote(this)" class="form__input js_performanceNote" type="text" name="" value="" placeholder="Введите текст заметки">
-          </div>
-        </form>
-        <div class="refereeForm__nav">
-          <a class="refereeForm__button button">Оценки других судей</a>
-          <a class="refereeForm__button button">Вся программа</a>
-        </div>
-      </div>
-
-    </section> -->
+    <div class="page__loading" data-status="show">
+      <svg class="page__spinner spinner" viewBox="0 0 50 50">
+        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+      </svg>
     </div>
 
   </main>

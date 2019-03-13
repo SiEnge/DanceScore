@@ -1,5 +1,5 @@
 .nomination {
-  background-color: @white;
+  // background-color: @white;
   position: relative;
   box-shadow: @shadow;
   &::before {
@@ -50,6 +50,9 @@
   &:hover {
     // background-color: @light-turquoise;
   }
+  &[data-prize-id-choice="0"] {
+    color: @dark-grey;
+  }
 }
 
 .nomination__choiceprogramm {
@@ -73,6 +76,9 @@
     display: block;
   }
   &[data-status="hide"] {
+    display: none;
+  }
+  &[data-prize-id="0"] {
     display: none;
   }
 }

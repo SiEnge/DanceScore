@@ -268,6 +268,19 @@ function checkTens(btn) {
   }
 }
 
+
+var points = document.querySelector(".points");
+
+if (points) {
+  points.onclick = function(event) {
+    var target = event.target;
+
+    if (!target.classList.contains("points__button")) return; // не на TD? тогда не интересует
+
+    scoring(target);
+  };
+}
+
 //подчсет баллов
 function scoring(btn) {
   var form = btn.form;
@@ -296,14 +309,12 @@ function scoring(btn) {
   for (var i = 0; i < btnTens.length; i++) {
     if (btnTens[i].classList.contains("points__button--active")) {
       inputName.valueAsNumber += +btnTens[i].value;
-      // inputName.value = String(+inputName.value + +btnTens[i].value);
     }
   }
 
   for (var i = 0; i < btnOnes.length; i++) {
     if (btnOnes[i].classList.contains("points__button--active")) {
       inputName.valueAsNumber += +btnOnes[i].value;
-      // inputName.value = String(+inputName.value + +btnOnes[i].value);
     }
   }
 
@@ -356,7 +367,9 @@ function createBtn(classBtn, textBtn) {
 //------------------------------------------------------------------------------
 // для AJAX index.html
 //Парсинг данных от сервера в форму refereeForm
-function parsePerfomance(json) {
+function parsePerfomance(jsonText) {
+  var json = JSON.parse(jsonText);
+
   var formInfo = json.performance_info; //id текущего выступления
   var form = document.querySelector(".js_refereeForm");
   var performance_id = form.querySelector(".js_onlinePerformanceId");
@@ -535,7 +548,54 @@ function setNote(input) {
 window.addEventListener("load", function() {
   var refereeForm = document.querySelector(".refereeForm");
   if (refereeForm) {
-    requestPerformance();
+    var data_user = {
+      "get_data": {
+        "people_my_name": ""
+      }
+    }
+    var json_user = JSON.stringify(data_user);
+
+    var body = 'get_performance_info=';
+    // var text = {
+    //   "get_data": {
+    //     "id": "0",
+    //     "size": "",
+    //     "data": {
+    //       "performance_turn_id": "",
+    //       "performance_turn_id": "",
+    //       "performance_age_category": "",
+    //       "performance_nomination": "",
+    //       "performance_title": "",
+    //       // "team_title"
+    //       "performance_director": ""
+    //       // "performance_note"
+    //       // "criteria"
+    //       // "rating"
+    //     }
+    //   }
+    // }
+    var json = JSON.stringify(body);
+
+    requestPerformance(json_user).then(function(response) {
+        parseUser(response);
+    }).catch(function(error){
+        console.log("Error!!!");
+        console.log(error);
+    });
+
+    requestPerformance(json).then(function(response) {
+
+        console.log(response);
+        return JSON.parse(response);
+    }).then(function(data) {
+        // console.log(data[0]);
+        parsePerfomance(data);
+    }).catch(function(error){
+        console.log("Error!!!");
+        console.log(error);
+    });
+
+    // requestPerformance();
   }
 });
 
@@ -582,7 +642,6 @@ function countPrize() {
   var prizeItem = document.querySelectorAll(".awards__item");
   var prizeAmount = [];
 
-
   //подсчет выбранных призов по видам
   for (var i = 0; i < prizeItem.length; i++) {
     var sum = 0;
@@ -600,6 +659,9 @@ function countPrize() {
     if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML > prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "many";
     if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML == prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "ok";
     if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML < prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "few";
+    if (prizeItem[i].querySelector(".awards__amount--all").innerHTML == "0") {
+      prizeItem[i].dataset.prizeStatus = "base";
+    }
   }
 
   var flagError = false;
@@ -797,8 +859,26 @@ function test(btn) {
 //------------------------------------------------------------------------------
 //для AJAX results.html
 
+//Запрос
+// {"get_data":{"people_my_name":""}}
+//Ответ сервера:
+// {"surname":"Иванов","lastname":"Иван","middlename":"Иванович"}
+
 //Парсинг данных о мероприятии
-function parseContest(json) {
+function parseUser(jsonText) {
+  var json = JSON.parse(jsonText);
+  var surname = document.querySelector(".surname");
+  var lastname = document.querySelector(".lastname");
+
+  surname.innerHTML = json["surname"];
+  lastname.innerHTML = json["lastname"];
+}
+
+
+//Парсинг данных о мероприятии
+function parseContest(jsonText) {
+  var json = JSON.parse(jsonText);
+
   var contestTitle = document.querySelector(".js_contestTitle");
   var prizeList = document.querySelector(".awards__list");
   var prizeItem = prizeList.querySelector(".awards__item");
@@ -850,7 +930,10 @@ function parseContest(json) {
 //Парсинг данных о номинантах
 var jsonObject = {};
 
-function parseResult(json, counter, step) {
+function parseResult(jsonText, counter, step) {
+
+  var json = JSON.parse(jsonText);
+
   if (!json) {
     json = jsonObject;
   }
@@ -867,7 +950,9 @@ function parseResult(json, counter, step) {
   var nominationBlock = nominant.querySelector(".nomination");
   var nominationChoiceProgramm = nominant.querySelector(".nomination__choiceprogramm");
   var nominationChoice = nominant.querySelector(".nomination__choice");
-  var btnNominantShow = document.querySelector(".nominant__show");
+  var btnNominantShow = document.querySelector(".page-result__loading");
+  var prizeItem = document.querySelectorAll(".awards__item");
+
 
   nominantSort(json);
 
@@ -899,14 +984,23 @@ function parseResult(json, counter, step) {
         rating.innerHTML = "Голосование идет";
         nominationBlock.setAttribute("data-status", "hide");
       } else {
-        rating.innerHTML = json[jsonSort[i][0]].performance_rating_sum + " баллов";
+
+        rating.innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100)  + " баллов";
         nominationBlock.setAttribute("data-status", "show");
-        for (var key2 in json[jsonSort[i][0]].performance_prize) {
-          nominationChoiceProgramm.innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-          nominationChoice.innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-          nominationChoiceProgramm.dataset.prizeId = key2;
-          nominationChoice.dataset.prizeIdChoice = key2;
+        nominationChoiceProgramm.dataset.prizeId = json[jsonSort[i][0]].performance_prize;
+        nominationChoice.dataset.prizeIdChoice = json[jsonSort[i][0]].performance_prize;
+        // for (var key2 in json[jsonSort[i][0]].performance_prize) {
+
+        for (var j = 0; j <prizeItem.length; j++) {
+          if (json[jsonSort[i][0]].performance_prize == prizeItem[j].dataset.prizeId) {
+            nominationChoiceProgramm.innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
+            nominationChoice.innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
+          }
         }
+
+          // nominationChoiceProgramm.innerHTML = json[jsonSort[i][0]].performance_prize[key2];
+          // nominationChoice.innerHTML = json[jsonSort[i][0]].performance_prize[key2];
+        // }
       }
 
     } else {
@@ -938,14 +1032,22 @@ function parseResult(json, counter, step) {
         nominantClone.querySelector(".nominant__rating").innerHTML = "Голосование идет";
         nominantClone.querySelector(".nomination").dataset.status = "hide";
       } else {
-        nominantClone.querySelector(".nominant__rating").innerHTML = json[jsonSort[i][0]].performance_rating_sum + " баллов";
+        nominantClone.querySelector(".nominant__rating").innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100)  + " баллов";
         nominantClone.querySelector(".nomination").dataset.status = "show";
-        for (var key2 in json[jsonSort[i][0]].performance_prize) {
-          nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-          nominantClone.querySelector(".nomination__choice").innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-          nominantClone.querySelector(".nomination__choiceprogramm").dataset.prizeId = key2;
-          nominantClone.querySelector(".nomination__choice").dataset.prizeIdChoice = key2;
+        nominantClone.querySelector(".nomination__choiceprogramm").dataset.prizeId = json[jsonSort[i][0]].performance_prize;
+        nominantClone.querySelector(".nomination__choice").dataset.prizeIdChoice = json[jsonSort[i][0]].performance_prize;
+        // for (var key2 in json[jsonSort[i][0]].performance_prize) {
+
+        for (var j = 0; j <prizeItem.length; j++) {
+          if (json[jsonSort[i][0]].performance_prize == prizeItem[j].dataset.prizeId) {
+            nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
+            nominantClone.querySelector(".nomination__choice") = prizeItem[j].querySelector(".awards__name").innerHTML;
+          }
         }
+
+          // nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = json[jsonSort[i][0]].performance_prize[key2];
+          // nominantClone.querySelector(".nomination__choice").innerHTML = json[jsonSort[i][0]].performance_prize[key2];
+        // }
 
       }
 
@@ -966,10 +1068,10 @@ function parseResult(json, counter, step) {
     btnNominantShow.dataset.all = all;
 
   }
-  // var nomClone = nominantClone.parentElement;
-  // var test2 = nominantClone.querySelector(".nominant__labeltext").offsetHeight;
-  // nominantClone.querySelector(".nominant__labeltext").innerHTML = sliceText(nominantClone.querySelector(".nominant__labeltext").clientHeight, json[jsonSort[i][0]].performance_nomination["nomination_title"]);
 
+  if (+btnNominantShow.dataset.count >= +btnNominantShow.dataset.all) {
+    btnNominantShow.dataset.status = "hide";
+  }
 
   var nominantList = nominants.querySelectorAll(".nominant__label");
   var nominantListText = nominants.querySelectorAll(".nominant__labeltext");
@@ -983,7 +1085,7 @@ function parseResult(json, counter, step) {
 
   countPrize();
   // if (!jsonObject) {
-    jsonObject = json;
+    jsonObject = jsonText;
     return jsonObject;
   // }
 }
@@ -993,18 +1095,83 @@ function parseResult(json, counter, step) {
 window.addEventListener("load", function() {
   var result = document.querySelector(".summarizing");
   if (result) {
-    //запрос тестового массива с указанием performance_id и performance_turn_id
-    // и ее сортировкой
+    var data_user = {
+      "get_data": {
+        "people_my_name": ""
+      }
+    }
+    var json_user = JSON.stringify(data_user);
+
+    var load = document.querySelector(".page__loading");
+
+    var data_contest = {
+      "get_data": {
+        "contest_id": "0",
+        "size": "1",
+        "data": {
+          "contest_title": "", //название соревнования
+          "prize_option": "" //Варианты призов
+        }
+      }
+    }
+    var json_contest = JSON.stringify(data_contest);
+
+    var data_performance = {
+      "get_data": {
+        "performance_id": "0",
+        "size": "100",
+        "data": {
+          "performance_age_category": "", //возрастная категория
+          "performance_nomination": "", //категория номинации
+          "performance_title": "", //название номера
+          "performance_team_title": "", //название коллектива
+          "performance_rating_sum": "", //итоговая сумма
+          "performance_prize": "", //призовое рассчетное место
+          "performance_turn_id": "" //номер выступления
+        }
+      }
+    }
+    var json_performance = JSON.stringify(data_performance);
+
+    requestPerformance(json_user).then(function(response) {
+        parseUser(response);
+    }).catch(function(error){
+        console.log("Error!!!");
+        console.log(error);
+    });
 
 
-    //затем запрос данных по номинантам согласно отосортированному массиву
+    requestPerformance(json_contest).then(function(response) {
+        parseContest(response);
+        // console.log(response);
+        // return JSON.parse(response);
+    // }).then(function(json2) {
+    //     // console.log(data[0]);
+    //     parseContest(json);
+    //     parseResult(json, 0, 5);
+    }).catch(function(error){
+        console.log("Error!!!");
+        console.log(error);
+    });
+
+    requestPerformance(json_performance).then(function(response) {
+      parseResult(response, 0, 5);
+      load.dataset.status = "hide";
+        // parseContest(response);
+        // console.log(response);
+        // return JSON.parse(response);
+    // }).then(function(json2) {
+    //     // console.log(data[0]);
+    //     parseContest(json);
+    //     parseResult(json, 0, 5);
+    }).catch(function(error){
+        console.log("Error!!!");
+        console.log(error);
+    });
 
 
     // requestContest();
-    // requestResult();
-    requestContest();
   }
-
 });
 
 
@@ -1085,40 +1252,71 @@ function checkNominant() {
 
 
 
-// var page = 1;
-// function loadData(page, pageSize) {
-//     ... тут загружаем данные с сервера, возвращаемый тип - Promise
-// }
-//
-// function prepareHtml(content) {
-//     ... тут превращаем данные в HTML разметку, возвращаемый тип либо DOM node, либо текст
-// }
-
-window.addEventListener('scroll', function(e){
-    var target = e.target;
-    var body = document.querySelector(".page");
-    var btnShow = document.querySelector(".nominant__show");
-    var count = +btnShow.dataset.count;
-    var all = +btnShow.dataset.all;
-
-    var test = body.scrollHeight;
-
-
-});
-
 window.addEventListener('scroll', function(e){
   // var body = document.querySelector(".page");
-  var btnShow = document.querySelector(".nominant__show");
+  var btnShow = document.querySelector(".page-result__loading");
+  var spinner = document.querySelector(".page-result__spinner");
   var count = +btnShow.dataset.count;
   var all = +btnShow.dataset.all;
+
+  var data2 = {
+    "get_data": {
+      "performance_id": "0",
+      "size": "100",
+      "data": {
+        "performance_age_category": "", //возрастная категория
+        "performance_nomination": "", //категория номинации
+        "performance_title": "", //название номера
+        "performance_team_title": "", //название коллектива
+        "performance_rating_sum": "", //итоговая сумма
+        "performance_prize": "", //призовое рассчетное место
+        "performance_turn_id": "" //номер выступления
+      }
+    }
+  }
+  var json2 = JSON.stringify(data2);
 
     var target = e.target.scrollingElement;
     if(target.scrollHeight - target.scrollTop - target.clientHeight < 10) {
       if (count < all) {
+
+        spinner.dataset.status = "show";
+        // requestPerformance(json2).then(function(response) {
+        //   // parseResult(response, count, 3);
+        //   parseResult(jsonObject, count, 3);
+        //   spinner.dataset.status = "hide";
+        //
+        //   // parseResult(response, 0, 5);
+        //     // parseContest(response);
+        //     // console.log(response);
+        //     // return JSON.parse(response);
+        // // }).then(function(json2) {
+        // //     // console.log(data[0]);
+        // //     parseContest(json);
+        // //     parseResult(json, 0, 5);
+        // }).catch(function(error){
+        //     console.log("Error!!!");
+        //     console.log(error);
+        // });
+
         parseResult(jsonObject, count, 3);
+        spinner.dataset.status = "hide";
       }
-         // loadData(++page, 10).then(function(response){
-               // target.appendChild(prepareHtml(response));
-         // })
     }
 });
+
+// function onReady(callback) {
+//     var intervalID = window.setInterval(checkReady, 1000);
+//
+//     function checkReady() {
+//         if (document.getElementsByTagName('body')[0] !== undefined) {
+//             window.clearInterval(intervalID);
+//             callback.call(this);
+//         }
+//     }
+// }
+
+// onReady(function () {
+//   document.getElementById('page').style.display = true ? 'block' : 'none';
+//   document.getElementById('loading').style.display = false ? 'block' : 'none';
+// });

@@ -26,3 +26,68 @@
 .page--error {
   background-color: rgba(252, 160, 171, 0.1);
 }
+
+#page {
+  display: none;
+}
+
+.page__loading {
+    // display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: @light-turquoise;
+    // background-image: url("http://i.stack.imgur.com/MnyxU.gif");
+    // background-repeat: no-repeat;
+    // background-position: center;
+    &[data-status="show"] {
+      display: block;
+    }
+    &[data-status="hide"] {
+      display: none;
+    }
+}
+
+.page__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+  z-index: 2;
+
+  margin: -25px 0 0 -25px;
+  width: 50px;
+  height: 50px;
+  .path {
+    stroke: @turquoise;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
