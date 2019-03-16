@@ -16,9 +16,9 @@
 <body class="page page--grey">
 
   <header class="header">
-    <div class="header__message" data-errormessage-status="hide">
+    <!-- <div class="header__message" data-errormessage-status="hide">
       <p>Проверьте количество назначенных наград!</p>
-    </div>
+    </div> -->
     <section class="header__wrap container">
       <div class="header__logo">
         <a href="../index.html"><img src="img/logo_justCreate.svg" alt="Логотип «Только твори»"></a>
@@ -57,7 +57,7 @@
     </section>
   </header>
 
-  <main class="page__flex container">
+  <main class="page__flex  container">
     <section class="menu menu--opened">
       <ul class="menu__list">
         <li class="menu__item menu__item--myevent menu__item--active"><a href="#">Мои мероприятия</a></li>
@@ -105,13 +105,129 @@
       <section class="breadcrumbs">
         <!-- <div class="container--shrink"> -->
         <ul class="breadcrumbs__list">
-          <li class="breadcrumbs__item"><a href="index.html">Мои мероприятия</a></li>
-          <li class="breadcrumbs__item"><a class="js_contestTitle">Всероссийский АРТ-конкурс "Властелины искусства"</a></li>
-          <li class="breadcrumbs__item">Протокол голосования</li>
+          <li class="breadcrumbs__item"><a href="index.html">Все мероприятия</a></li>
+          <li class="breadcrumbs__item">Заявка на участие</li>
         </ul>
         <!-- </div> -->
       </section>
 
+      <section>
+        <form class="form-registration" action="#" method="post">
+          <fieldset class="form-registration__field form-registration__field--team">
+            <legend class="form-registration__legend">Заполните информацию о коллективе-участнике</legend>
+            <!-- <p class="form-registration__text">Заполните информацию о коллективе-участнике</p> -->
+            <div class="form-registration__wrap">
+              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+                <label class="form-registration__label" for="teamName">Название коллектива</label>
+                <input class="form-registration__input" type="text" name="teamName" value="Веснушки" id="teamName">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+                <label class="form-registration__label" for="locality">Населенный пункт</label>
+                <input class="form-registration__input" type="text" name="locality" value="Екатеринбург" id="locality">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+                <label class="form-registration__label" for="team">Учреждение</label>
+                <input class="form-registration__input" type="text" name="team" value="Школа искусств" id="team">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+                <label class="form-registration__label" for="namePerformance">Название номера</label>
+                <input class="form-registration__input" type="text" name="namePerformance" value="Ромашки" id="namePerformance">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+                <label class="form-registration__label" for="nomination">Номинация</label>
+                <input class="form-registration__input" type="text" name="nomination" value="Современная хореография" id="nomination">
+              </div>
+            </div>
+            <div class="form-registration__wrap form-registration__wrap--teamCount">
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="teamCount">Число выступающих</label>
+                <input class="form-registration__input" type="number" name="teamCount" value="10" id="teamCount">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="minAge">Мин. возраст выступающих</label>
+                <input class="form-registration__input" type="number" name="minAge" value="6" id="minAge">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="maxAge">Макс. возраст выступающих</label>
+                <input class="form-registration__input" type="number" name="maxAge" value="12" id="maxAge">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-registration__field form-registration__field--director">
+            <legend class="form-registration__legend">Руководители коллектива</legend>
+            <div class="form-registration__wrap">
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="surname">Фамилия</label>
+                <input class="form-registration__input" type="text" name="surname" value="Иванов" id="surname">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="lastname">Имя</label>
+                <input class="form-registration__input" type="text" name="lastname" value="Иван" id="lastname">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="middlename">Отчество</label>
+                <input class="form-registration__input" type="text" name="middlename" value="Иванович" id="middlename">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="position">Должность</label>
+                <input class="form-registration__input" type="text" name="position" value="Руководитель" id="position">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="phone">Телефон</label>
+                <input class="form-registration__input" type="text" name="phone" value="" id="phone">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col" data-staus="hide">
+                <label class="form-registration__label" for="none"></label>
+                <input class="form-registration__input" type="text" name="none" value="" id="none">
+              </div>
+            </div>
+
+            <div class="form-registration__wrap">
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="surname2">Фамилия</label>
+                <input class="form-registration__input" type="text" name="surname2" value="Иванов 2" id="surname2">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="lastname2">Имя</label>
+                <input class="form-registration__input" type="text" name="lastname2" value="Иван 2" id="lastname2">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="middlename2">Отчество</label>
+                <input class="form-registration__input" type="text" name="middlename2" value="Иванович 2" id="middlename2">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="position2">Должность</label>
+                <input class="form-registration__input" type="text" name="position2" value="Концертмейстер" id="position2">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+                <label class="form-registration__label" for="phone2">Телефон</label>
+                <input class="form-registration__input" type="text" name="phone2" value="" id="phone2">
+              </div>
+              <div class="form-registration__input-wrap form-registration__input-wrap--3col" data-staus="hide">
+                <label class="form-registration__label" for="none2"></label>
+                <input class="form-registration__input" type="text" name="none2" value="" id="none2">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-registration__field form-registration__field--file">
+            <legend class="form-registration__legend">Загрузите свою фонограмму</legend>
+            <p class="form-registration__text">Один или несколько файлов в аудиоформате до 50 Мб</p>
+            <div class="form-registration__wrap form-registration__wrap--file form-registration__input-wrap--3col">
+              <div class="form-registration__input form-registration__input--file" id="upload">
+                <input id="file-input" type="file" name="file" multiple>
+                <p class="form-registration__text">Перетащите файл сюда или <br>
+                  выберите его <label class="form-registration__text--link" for="file-input">из папки</label></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <button class="form-registration__button" type="button" name="button">Подать заявку</button>
+
+
+        </form>
+      </section>
 
 
 
