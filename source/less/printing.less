@@ -1,7 +1,7 @@
 .printing {
   display: flex;
   justify-content: space-between;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .printing__button {
@@ -16,6 +16,11 @@
   line-height: 14px;
   border-radius: 5px;
   cursor: pointer;
+  flex: 1 0 auto;
+  margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
+  }
   &::before {
     left: 20px;
     content: "";

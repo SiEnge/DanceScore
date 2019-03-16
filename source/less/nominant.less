@@ -5,8 +5,8 @@
 .nominant {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 20px;
-  margin-top: 40px;
+  // padding-bottom: 20px;
+  margin-bottom: 10px;
 
 }
 
@@ -18,7 +18,7 @@
   flex: 0 0 100px;
   border-radius: 5px;
   // padding: 20px;
-  margin-right: 20px;
+  margin-right: 10px;
   font-weight: 700;
   cursor: pointer;
   padding: 10px;
@@ -72,31 +72,15 @@
 .nominant__labeltext {
   transform: rotate(180deg);
   margin: 0;
-  // display: inline-block;
   white-space: nowrap;
-  // transform:  rotate(-90deg);
-  // transform: translate(0,100%) rotate(-90deg);
-  // transform-origin: 0 0;
-  // vertical-align: middle;
-  // text-align: center;
-  // position: relative;
-
-
-
   font-weight: 700;
   writing-mode: vertical-rl;
-  // display: inline-block;
-
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-
   position: absolute;
   bottom: 20px;
-  // top: 20px;
   left: 10px;
 }
+
 .nominant__labeltext::after {
-  // position: absolute;
   content: "";
   float: left;
   margin-top: 100%;
@@ -106,6 +90,8 @@
   padding: 10px 20px;
 
 }
+
+
 
 .nominant__onlinePerformanceId {
 
@@ -141,7 +127,45 @@
   padding: 10px;
   border: 1px solid @grey;
   min-height: 36px;
+  // flex: 1 0 auto;
+  // margin-bottom: 10px;
 
+}
+
+.nominant__titleAmount {
+  position: relative;
+  color: @dark-grey;
+  font-size: 12px;
+  line-height: 14px;
+  padding-left: 30px;
+  margin: 0;
+  padding-right: 10px;
+  border-right: 1px solid @grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  &[data-status="show"] {
+    display: block;
+  }
+  &[data-status="hide"] {
+    display: none;
+  }
+
+
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 17px;
+    background-image: url("../img/star.svg");
+
+
+  }
 }
 
 .nominant__rating {
@@ -149,6 +173,8 @@
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
+  flex: 1 0 auto;
+  text-align: center;
 
 }
 
@@ -185,7 +211,7 @@
 .nominant__change {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 10px;
   justify-content: space-between;
 
 

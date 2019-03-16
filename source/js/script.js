@@ -111,6 +111,7 @@ function menuOpen(button) {
 //СТРАНИЦА index.html - "Судейство мероприятия"
 //создание исходного "эталонного" массива
 var inputsMainValue = [];
+
 function getInputsMainValue() {
   var inputsMain = document.querySelectorAll(".scoring__input");
   inputsMainValue = [];
@@ -534,7 +535,7 @@ function setNote(input) {
   var formId = form.id;
   var inputNote = input.value;
   var text = {
-    "set_note": {
+    "set_performance_note": {
       "performance_id": formId,
       "note": inputNote
     }
@@ -548,12 +549,7 @@ function setNote(input) {
 window.addEventListener("load", function() {
   var refereeForm = document.querySelector(".refereeForm");
   if (refereeForm) {
-    var data_user = {
-      "get_data": {
-        "people_my_name": ""
-      }
-    }
-    var json_user = JSON.stringify(data_user);
+    var json_user = createDataUser();
 
     var body = 'get_performance_info=';
     // var text = {
@@ -576,26 +572,25 @@ window.addEventListener("load", function() {
     // }
     var json = JSON.stringify(body);
 
-    requestPerformance(json_user).then(function(response) {
-        parseUser(response);
-    }).catch(function(error){
-        console.log("Error!!!");
-        console.log(error);
+    getAjax(json_user).then(function(response) {
+      parseUser(response);
+    }).catch(function(error) {
+      console.log("Error!!!");
+      console.log(error);
     });
 
-    requestPerformance(json).then(function(response) {
+    getAjax(json).then(function(response) {
 
-        console.log(response);
-        return JSON.parse(response);
+      console.log(response);
+      return JSON.parse(response);
     }).then(function(data) {
-        // console.log(data[0]);
-        parsePerfomance(data);
-    }).catch(function(error){
-        console.log("Error!!!");
-        console.log(error);
+      // console.log(data[0]);
+      parsePerfomance(data);
+    }).catch(function(error) {
+      console.log("Error!!!");
+      console.log(error);
     });
 
-    // requestPerformance();
   }
 });
 
@@ -656,9 +651,9 @@ function countPrize() {
     prizeItem[i].querySelector(".awards__total--selected").innerHTML = prizeAmount[i];
     prizeItem[i].querySelector(".awards__amount--selected").innerHTML = prizeAmount[i];
     //проверка количества призов
-    if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML > prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "many";
-    if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML == prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "ok";
-    if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML < prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "few";
+    if (+prizeItem[i].querySelector(".awards__amount--selected").innerHTML > +prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "many";
+    if (+prizeItem[i].querySelector(".awards__amount--selected").innerHTML == +prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "ok";
+    if (+prizeItem[i].querySelector(".awards__amount--selected").innerHTML < +prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "few";
     if (prizeItem[i].querySelector(".awards__amount--all").innerHTML == "0") {
       prizeItem[i].dataset.prizeStatus = "base";
     }
@@ -679,7 +674,7 @@ function countPrize() {
   if (flagError) {
     if (!page.classList.contains("page--error")) {
       page.classList.add("page--error");
-      page.querySelector(".page__flex").classList.add(".page__flex--pt138");
+      page.querySelector(".page__flex").classList.add("page__flex--pt138");
     }
     // if (resultFix.classList.contains(".wrap__result--fix")) {
     //   resultFix.classList.remove(".wrap__result--fix");
@@ -689,7 +684,7 @@ function countPrize() {
   } else {
     if (page.classList.contains("page--error")) {
       page.classList.remove("page--error");
-      page.querySelector(".page__flex").classList.remove(".page__flex--pt138");
+      page.querySelector(".page__flex").classList.remove("page__flex--pt138");
 
     }
     // if (resultFix.classList.contains(".wrap__result--errorfix")) {
@@ -703,18 +698,31 @@ function countPrize() {
 
 //выбор приза
 function choicePrize(nominationItem) {
+
   var nomination = nominationItem.parentElement.parentElement;
   var nomChoice = nomination.querySelector(".nomination__choice");
-  var nomChoiceProgramm = nomination.querySelector(".nomination__choiceprogramm");
+  // var nomChoiceProgramm = nomination.querySelector(".nomination__choiceprogramm");
 
   nomChoice.innerHTML = nominationItem.innerText;
   nomChoice.dataset.prizeIdChoice = nominationItem.dataset.prizeId;
 
-  if (nomChoice.dataset.prizeIdChoice == nomChoiceProgramm.dataset.prizeId) {
-    nomChoiceProgramm.dataset.status = "hide";
-  } else {
-    nomChoiceProgramm.dataset.status = "show";
+  var data = {
+    "set_data": {
+      "performance_prize_manual":{
+        "performance_id": nomination.dataset.performanceId,
+        "prize_id": nominationItem.dataset.prizeId
+      }
+    }
   }
+  var json = JSON.stringify(data);
+
+  setAjax(json);
+
+  // if (nomChoice.dataset.prizeIdChoice == nomChoiceProgramm.dataset.prizeId) {
+  //   nomChoiceProgramm.dataset.status = "hide";
+  // } else {
+  //   nomChoiceProgramm.dataset.status = "show";
+  // }
   countPrize();
 }
 
@@ -950,8 +958,10 @@ function parseResult(jsonText, counter, step) {
   var nominationBlock = nominant.querySelector(".nomination");
   var nominationChoiceProgramm = nominant.querySelector(".nomination__choiceprogramm");
   var nominationChoice = nominant.querySelector(".nomination__choice");
+  var nominationTitleAmount = nominant.querySelector(".nominant__titleAmount");
   var btnNominantShow = document.querySelector(".page-result__loading");
   var prizeItem = document.querySelectorAll(".awards__item");
+
 
 
   nominantSort(json);
@@ -959,7 +969,7 @@ function parseResult(jsonText, counter, step) {
   var num = 0;
   for (var i = counter; i < counter + step; i++) {
     if (num == 0 && counter == 0) { //если это первый элемент в объекте, то заполняем данные в блоке nominant
-
+      nominant.dataset.performanceId = jsonSort[i][0];
       category.innerHTML = json[jsonSort[i][0]].performance_age_category["age_category_title"];
       //Цвет кнопки возврастной категории. Если тон и насыщенность не определены, то берутся данные по дефолту
       var color = json[jsonSort[i][0]].performance_age_category["age_category_color"].split(',');
@@ -979,34 +989,45 @@ function parseResult(jsonText, counter, step) {
       performanceId.innerHTML = jsonSort[i][0];
       performanceTitle.innerHTML = json[jsonSort[i][0]].performance_title;
       teamTitle.innerHTML = json[jsonSort[i][0]].performance_team_title;
+      nominationBlock.dataset.performanceId = jsonSort[i][0];
       // nominationText.innerHTML = sliceText(nominantList[i].clientHeight, nominantTitle[i]);
-      if (json[jsonSort[i][0]].performance_rating_sum == null) {
+      if (json[jsonSort[i][0]].performance_rating_sum == null) { //если сумма баллов равна null, то
         rating.innerHTML = "Голосование идет";
         nominationBlock.setAttribute("data-status", "hide");
+        nominationTitleAmount.dataset.status = "hide";
       } else {
 
-        rating.innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100)  + " баллов";
+        rating.innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100);
+        // rating.innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100) + " баллов";
         nominationBlock.setAttribute("data-status", "show");
-        nominationChoiceProgramm.dataset.prizeId = json[jsonSort[i][0]].performance_prize;
-        nominationChoice.dataset.prizeIdChoice = json[jsonSort[i][0]].performance_prize;
-        // for (var key2 in json[jsonSort[i][0]].performance_prize) {
+        nominationTitleAmount.dataset.status = "show";
 
-        for (var j = 0; j <prizeItem.length; j++) {
+
+        nominationChoiceProgramm.dataset.prizeId = json[jsonSort[i][0]].performance_prize;
+        nominationChoice.dataset.prizeIdChoice = json[jsonSort[i][0]].performance_prize_manual;
+
+        for (var j = 0; j < prizeItem.length; j++) {
           if (json[jsonSort[i][0]].performance_prize == prizeItem[j].dataset.prizeId) {
             nominationChoiceProgramm.innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
+            nominationChoiceProgramm.dataset.status = "show";
+          }
+
+          if (json[jsonSort[i][0]].performance_prize_manual == prizeItem[j].dataset.prizeId) {
             nominationChoice.innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
           }
+
         }
 
-          // nominationChoiceProgramm.innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-          // nominationChoice.innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-        // }
+
       }
 
     } else {
       if (i > (jsonSort.length - 1)) break;
       var test = jsonSort[i][0];
       var nominantClone = nominant.cloneNode(true);
+
+      nominantClone.dataset.performanceId = jsonSort[i][0];
+
 
       //название возрастной категории
       nominantClone.querySelector(".nominant__category").innerHTML = json[jsonSort[i][0]].performance_age_category["age_category_title"];
@@ -1028,26 +1049,42 @@ function parseResult(jsonText, counter, step) {
       nominantClone.querySelector(".js_performanceId").innerHTML = jsonSort[i][0];
       nominantClone.querySelector(".nominant__performanceTitle").innerHTML = json[jsonSort[i][0]].performance_title;
       nominantClone.querySelector(".nominant__teamTitle").innerHTML = json[jsonSort[i][0]].performance_team_title;
-      if (json[jsonSort[i][0]].performance_rating_sum == null) {
+      nominantClone.querySelector(".nomination").dataset.performanceId = jsonSort[i][0];
+      if (json[jsonSort[i][0]].performance_rating_sum == null) { //если сумма баллов равна null, то
         nominantClone.querySelector(".nominant__rating").innerHTML = "Голосование идет";
         nominantClone.querySelector(".nomination").dataset.status = "hide";
+        nominantClone.querySelector(".nominant__titleAmount").dataset.status = "hide";
+        nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = "";
+        nominantClone.querySelector(".nomination__choice").innerHTML = "";
+        nominantClone.querySelector(".nomination__choiceprogramm").dataset.prizeId = "0";
+        nominantClone.querySelector(".nomination__choice").dataset.prizeIdChoice = "0";
       } else {
-        nominantClone.querySelector(".nominant__rating").innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100)  + " баллов";
+        nominantClone.querySelector(".nominant__rating").innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100);
+        // nominantClone.querySelector(".nominant__rating").innerHTML = (Math.round(+json[jsonSort[i][0]].performance_rating_sum * 100) / 100) + " баллов";
         nominantClone.querySelector(".nomination").dataset.status = "show";
-        nominantClone.querySelector(".nomination__choiceprogramm").dataset.prizeId = json[jsonSort[i][0]].performance_prize;
-        nominantClone.querySelector(".nomination__choice").dataset.prizeIdChoice = json[jsonSort[i][0]].performance_prize;
-        // for (var key2 in json[jsonSort[i][0]].performance_prize) {
+        nominantClone.querySelector(".nominant__titleAmount").dataset.status = "show";
 
-        for (var j = 0; j <prizeItem.length; j++) {
+
+        nominantClone.querySelector(".nomination__choiceprogramm").dataset.prizeId = +json[jsonSort[i][0]].performance_prize;
+        nominantClone.querySelector(".nomination__choice").dataset.prizeIdChoice = json[jsonSort[i][0]].performance_prize_manual;
+
+        for (var j = 0; j < prizeItem.length; j++) {
           if (json[jsonSort[i][0]].performance_prize == prizeItem[j].dataset.prizeId) {
             nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
-            nominantClone.querySelector(".nomination__choice") = prizeItem[j].querySelector(".awards__name").innerHTML;
+            nominantClone.querySelector(".nomination__choiceprogramm").dataset.status = "show";
+          }
+          if (json[jsonSort[i][0]].performance_prize == "0") {
+            nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = "";
+          }
+          if (json[jsonSort[i][0]].performance_prize_manual == prizeItem[j].dataset.prizeId) {
+            nominantClone.querySelector(".nomination__choice").innerHTML = prizeItem[j].querySelector(".awards__name").innerHTML;
+          }
+          if (json[jsonSort[i][0]].performance_prize_manual == "0") {
+            nominantClone.querySelector(".nomination__choice").innerHTML = "Выберите приз";
           }
         }
 
-          // nominantClone.querySelector(".nomination__choiceprogramm").innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-          // nominantClone.querySelector(".nomination__choice").innerHTML = json[jsonSort[i][0]].performance_prize[key2];
-        // }
+
 
       }
 
@@ -1085,8 +1122,8 @@ function parseResult(jsonText, counter, step) {
 
   countPrize();
   // if (!jsonObject) {
-    jsonObject = jsonText;
-    return jsonObject;
+  jsonObject = jsonText;
+  return jsonObject;
   // }
 }
 
@@ -1095,118 +1132,157 @@ function parseResult(jsonText, counter, step) {
 window.addEventListener("load", function() {
   var result = document.querySelector(".summarizing");
   if (result) {
-    var data_user = {
-      "get_data": {
-        "people_my_name": ""
-      }
-    }
-    var json_user = JSON.stringify(data_user);
-
     var load = document.querySelector(".page__loading");
+    var json_user = createDataUser();
+    var json_contest = createDataContest();
+    var json_performance = createDataPerformance();
 
-    var data_contest = {
-      "get_data": {
-        "contest_id": "0",
-        "size": "1",
-        "data": {
-          "contest_title": "", //название соревнования
-          "prize_option": "" //Варианты призов
-        }
-      }
-    }
-    var json_contest = JSON.stringify(data_contest);
+    getAjax(json_user).then(function(response) {
+      parseUser(response);
 
-    var data_performance = {
-      "get_data": {
-        "performance_id": "0",
-        "size": "100",
-        "data": {
-          "performance_age_category": "", //возрастная категория
-          "performance_nomination": "", //категория номинации
-          "performance_title": "", //название номера
-          "performance_team_title": "", //название коллектива
-          "performance_rating_sum": "", //итоговая сумма
-          "performance_prize": "", //призовое рассчетное место
-          "performance_turn_id": "" //номер выступления
-        }
-      }
-    }
-    var json_performance = JSON.stringify(data_performance);
-
-    requestPerformance(json_user).then(function(response) {
-        parseUser(response);
-    }).catch(function(error){
-        console.log("Error!!!");
-        console.log(error);
+    }).catch(function(error) {
+      console.log("Error!!!");
     });
 
 
-    requestPerformance(json_contest).then(function(response) {
-        parseContest(response);
-        // console.log(response);
-        // return JSON.parse(response);
-    // }).then(function(json2) {
-    //     // console.log(data[0]);
-    //     parseContest(json);
-    //     parseResult(json, 0, 5);
-    }).catch(function(error){
-        console.log("Error!!!");
-        console.log(error);
+    getAjax(json_contest).then(function(response) {
+      parseContest(response);
+    }).catch(function(error) {
+      console.log("Error!!!");
     });
 
-    requestPerformance(json_performance).then(function(response) {
+    getAjax(json_performance).then(function(response) {
       parseResult(response, 0, 5);
       load.dataset.status = "hide";
-        // parseContest(response);
-        // console.log(response);
-        // return JSON.parse(response);
-    // }).then(function(json2) {
-    //     // console.log(data[0]);
-    //     parseContest(json);
-    //     parseResult(json, 0, 5);
-    }).catch(function(error){
-        console.log("Error!!!");
-        console.log(error);
+    }).catch(function(error) {
+      console.log("Error!!!");
     });
 
 
-    // requestContest();
   }
 });
 
 
 //---------тестирование-----------------
 
+//печать страниц диплома
 
-//создание отсортированного массива с номинантами
-var jsonSort = [];
-function getNominantSort() {
 
-  var data = {
-    "get_data": {
-      "performance_id": "0",
-      "size": "",
-      "data": {
-        "performance_turn_id": "" //номер выступления
+var btnPrintDiploma = document.querySelector(".printing__button--diploma");
+
+if (btnPrintDiploma) {
+  btnPrintDiploma.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    var json_diploma = createDataDiploma();
+
+    getAjax(json_diploma).then(function(response) {
+      createDiploma(response);
+    }).catch(function(error) {
+      console.log("Error!!!");
+      console.log(error);
+    });
+  });
+}
+
+
+
+function createDiploma(jsonText) {
+  var contentDiploma = parseDiploma(jsonText);
+  var docInfo = {
+
+    info: {
+      title: "Дипломы",
+      author: "JustCreate",
+      subject: "Test"
+    },
+
+    pageSize: "A4",
+    pageOrientation: "portrait",
+    pageMargins: [30, 415, 30, 50],
+
+    content: contentDiploma,
+
+    styles: {
+      prize: {
+        fontSize: 42,
+        bold: true,
+        alignment: "center",
+        margin: [ 0, 0, 0, 30]
+      },
+      team: {
+        fontSize: 18,
+        bold: true,
+        alignment: "center",
+        margin: [ 0, 0, 0, 10]
+
+      },
+      director: {
+        fontSize: 18,
+        italics: true,
+        alignment: "center"
       }
     }
   }
-  var json = JSON.stringify(data);
-  ajaxNominant(json);
+  pdfMake.createPdf(docInfo).print();
+  // pdfMake.createPdf(docInfo).download("diplomas.pdf");
+}
 
+
+//Парсинг данных о мероприятии
+function parseDiploma(jsonText) {
+  var json = JSON.parse(jsonText);
+  var diplomaArr = [];
+  var prizeItem = document.querySelectorAll(".awards__item");
+
+  var i = 0;
 
   for (var key in json) {
-    jsonSort.push([key, json[key].performance_turn_id]);
+    diplomaArr[i] = new Object();
+
+    if (!(json[key].performance_prize_manual == "0")) {
+      for (var j = 0; j < prizeItem.length; j++) {
+        if (prizeItem[j].dataset.prizeId == json[key].performance_prize_manual) {
+          diplomaArr[i].text = prizeItem[j].querySelector(".awards__name").innerHTML;
+          break;
+        }
+      }
+    } else {
+      if (+json[key].performance_prize != 0) {
+        for (var j = 0; j < prizeItem.length; j++) {
+          if (prizeItem[j].dataset.prizeId == json[key].performance_prize) {
+            diplomaArr[i].text = prizeItem[j].querySelector(".awards__name").innerHTML;
+            break;
+          }
+        }
+      } else {
+        diplomaArr[i].text = "";
+      }
+    }
+    diplomaArr[i].style = "prize";
+    i++;
+
+    diplomaArr[i] = new Object();
+    diplomaArr[i].text = json[key].performance_team_title;
+    diplomaArr[i].style = "team";
+    i++;
+    diplomaArr[i] = new Object();
+    diplomaArr[i].text = json[key].performance_title;
+    diplomaArr[i].style = "team";
+    i++;
+    diplomaArr[i] = new Object();
+    diplomaArr[i].text = json[key].performance_director;
+    diplomaArr[i].style = "director";
+    diplomaArr[i].pageBreak = "after";
+    i++;
   }
 
-  jsonSort.sort(function(a, b) {
-    return a[1] - b[1];
-  });
+  delete diplomaArr[i - 1].pageBreak;
 
-  return jsonSort;
-
+  return diplomaArr;
 }
-getNominantSort(); // получение отсортированного по turm_id массива
+
+
 
 
 //проверка какие данные надо выводить в соответствии с jsonSort
@@ -1252,57 +1328,59 @@ function checkNominant() {
 
 
 
-window.addEventListener('scroll', function(e){
+window.addEventListener('scroll', function(e) {
   // var body = document.querySelector(".page");
   var btnShow = document.querySelector(".page-result__loading");
   var spinner = document.querySelector(".page-result__spinner");
   var count = +btnShow.dataset.count;
   var all = +btnShow.dataset.all;
 
-  var data2 = {
-    "get_data": {
-      "performance_id": "0",
-      "size": "100",
-      "data": {
-        "performance_age_category": "", //возрастная категория
-        "performance_nomination": "", //категория номинации
-        "performance_title": "", //название номера
-        "performance_team_title": "", //название коллектива
-        "performance_rating_sum": "", //итоговая сумма
-        "performance_prize": "", //призовое рассчетное место
-        "performance_turn_id": "" //номер выступления
-      }
+
+
+  // var data2 = {
+  //   "get_data": {
+  //     "performance_id": "0",
+  //     "size": "100",
+  //     "data": {
+  //       "performance_age_category": "", //возрастная категория
+  //       "performance_nomination": "", //категория номинации
+  //       "performance_title": "", //название номера
+  //       "performance_team_title": "", //название коллектива
+  //       "performance_rating_sum": "", //итоговая сумма
+  //       "performance_prize": "", //призовое рассчетное место
+  //       "performance_turn_id": "" //номер выступления
+  //     }
+  //   }
+  // }
+  // var json2 = JSON.stringify(data2);
+
+  var target = e.target.scrollingElement;
+  if (target.scrollHeight - target.scrollTop - target.clientHeight < 10) {
+    if (count < all) {
+
+      spinner.dataset.status = "show";
+      // requestPerformance(json2).then(function(response) {
+      //   // parseResult(response, count, 3);
+      //   parseResult(jsonObject, count, 3);
+      //   spinner.dataset.status = "hide";
+      //
+      //   // parseResult(response, 0, 5);
+      //     // parseContest(response);
+      //     // console.log(response);
+      //     // return JSON.parse(response);
+      // // }).then(function(json2) {
+      // //     // console.log(data[0]);
+      // //     parseContest(json);
+      // //     parseResult(json, 0, 5);
+      // }).catch(function(error){
+      //     console.log("Error!!!");
+      //     console.log(error);
+      // });
+
+      parseResult(jsonObject, count, 3);
+      spinner.dataset.status = "hide";
     }
   }
-  var json2 = JSON.stringify(data2);
-
-    var target = e.target.scrollingElement;
-    if(target.scrollHeight - target.scrollTop - target.clientHeight < 10) {
-      if (count < all) {
-
-        spinner.dataset.status = "show";
-        // requestPerformance(json2).then(function(response) {
-        //   // parseResult(response, count, 3);
-        //   parseResult(jsonObject, count, 3);
-        //   spinner.dataset.status = "hide";
-        //
-        //   // parseResult(response, 0, 5);
-        //     // parseContest(response);
-        //     // console.log(response);
-        //     // return JSON.parse(response);
-        // // }).then(function(json2) {
-        // //     // console.log(data[0]);
-        // //     parseContest(json);
-        // //     parseResult(json, 0, 5);
-        // }).catch(function(error){
-        //     console.log("Error!!!");
-        //     console.log(error);
-        // });
-
-        parseResult(jsonObject, count, 3);
-        spinner.dataset.status = "hide";
-      }
-    }
 });
 
 // function onReady(callback) {

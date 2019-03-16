@@ -7,7 +7,7 @@
     position: absolute;
     z-index: 13;
     right: 10px;
-    top: 18px;
+    bottom: 18px;
     width: 20px;
     height: 20px;
     background-image: url("../img/arrow_grey.svg");
@@ -42,16 +42,73 @@
   padding-left: 40px;
   padding-right: 28px;
   margin: 0;
+  margin-top: 10px;
   border-radius: 5px;
   border: 1px solid @grey;
   background-color: @white;
   z-index: 10;
   cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: left 6px center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:hover {
     // background-color: @light-turquoise;
   }
   &[data-prize-id-choice="0"] {
     color: @dark-grey;
+  }
+  &[data-prize-id-choice="1"] {
+    background-image: url("../img/Grand_prix_grey.svg");
+    background-size: 32px;
+    background-position: left 7px center;
+
+    &:hover {
+      background-image: url("../img/Grand_prix.svg");
+    }
+  }
+  &[data-prize-id-choice="2"] {
+    background-image: url("../img/medal_1_grey.svg");
+    background-size: 25px;
+    &:hover {
+      background-image: url("../img/medal_1.svg");
+    }
+  }
+  &[data-prize-id-choice="3"] {
+    background-image: url("../img/medal_2_grey.svg");
+    background-size: 25px;
+    &:hover {
+      background-image: url("../img/medal_2.svg");
+    }
+  }
+  &[data-prize-id-choice="4"] {
+    background-image: url("../img/medal_3_grey.svg");
+    background-size: 25px;
+    &:hover {
+      background-image: url("../img/medal_3.svg");
+    }
+  }
+  &[data-prize-id-choice="5"] {
+    background-image: url("../img/diplomant_1_grey.svg");
+    background-size: 32px;
+    &:hover {
+      background-image: url("../img/diplomant_1.svg");
+    }
+  }
+  &[data-prize-id-choice="6"] {
+    background-image: url("../img/diplomant_2_grey.svg");
+    background-size: 32px;
+    &:hover {
+      background-image: url("../img/diplomant_2.svg");
+    }
+  }
+  &[data-prize-id-choice="7"] {
+    background-image: url("../img/diplomant_3_grey.svg");
+    background-size: 32px;
+    &:hover {
+      background-image: url("../img/diplomant_3.svg");
+    }
   }
 }
 
@@ -60,7 +117,7 @@
   line-height: 14px;
   color: @white;
   position: absolute;
-  top: -30px;
+  top: -17px;
   right: -10px;
   background-color: @dark-grey;
   font-weight: 700;
@@ -88,7 +145,7 @@
   margin: 0;
   padding: 0;
   // padding-top: 4px;
-  top: 52px;
+  top: 64px;
   width: 188px;
   background-color: @white;
 
@@ -116,6 +173,9 @@
   background-repeat: no-repeat;
   background-position: left 5px center;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:hover {
     background-color: @light-turquoise;
     p {

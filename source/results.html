@@ -231,8 +231,8 @@
 
           <!-- печать протоколов и дипломов -->
           <section class="printing wrap__result--right">
-            <button class="printing__button" type="button" name="button">Печать протоколов голосования</button>
-            <button class="printing__button" type="button" name="button">Печать дипломов</button>
+            <button class="printing__button printing__button--protocol" type="button" name="button">Печать протоколов голосования</button>
+            <button class="printing__button printing__button--diploma" type="button" name="button">Печать дипломов</button>
           </section>
 
         </div>
@@ -241,7 +241,7 @@
 
 
       <section class="nominants" data-nominant-count="0">
-        <section class="nominant">
+        <section class="nominant" data-performance-id="0">
           <!-- блок Возрастной категории -->
           <button class="nominant__category">Юниоры</button>
           <!-- блок информации о номинанте -->
@@ -251,17 +251,18 @@
             </button>
             <div class="nominant__wrap">
               <p class="nominant__PerformanceId"># <span class="js_performanceId">93</span></p>
-              <p class="nominant__performanceTitle">Название выступления</p>
-              <p class="nominant__teamTitle">Название коллектива</p>
+              <p class="nominant__performanceTitle" id="test">Название выступления</p>
+              <p class="nominant__teamTitle" id="test2">Название коллектива</p>
             </div>
           </div>
           <!-- блок итоговой оценки и номинации -->
           <div class="nominant__total">
             <div class="nominant__amount">
-              <p class="nominant__rating">990.0 баллов</p>
+              <p class="nominant__titleAmount" data-status="show">Оценка</p>
+              <p class="nominant__rating"></p>
               <!-- <button onclick="openResult(this)" class="nominant__buttonmore button" type="button" name="button">Подробнее</button> -->
             </div>
-            <div class="nominant__nomination nomination">
+            <div class="nominant__nomination nomination" data-performance-id="0">
               <p class="nomination__choiceprogramm" data-status="hide" data-prize-id="0"></p>
               <p class="nomination__choice" data-prize-id-choice="0">Выберите приз</p>
               <ul class="nomination__list">
@@ -477,7 +478,11 @@
   <!-- <script src="js/jquery.maskedinput.min.js"></script> -->
   <script src="js/ajax.js"></script>
   <script src="slick/slick.js"></script>
+  <script src="js/pdfmake.min.js"></script>
+  <script src="js/vfs_fonts.js"></script>
+  <script src="js/xepOnline.jqPlugin.js"></script>
   <script src="js/script.js"></script>
+  <script src="js/script_test.js"></script>
   <!-- <script src="js/picturefill.js"></script> -->
 
 </body>

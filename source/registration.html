@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DanceScore</title>
+  <!-- <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon"> -->
+  <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+</head>
+
+<body class="page page--grey">
+
+  <header class="header">
+    <div class="header__message" data-errormessage-status="hide">
+      <p>Проверьте количество назначенных наград!</p>
+    </div>
+    <section class="header__wrap container">
+      <div class="header__logo">
+        <a href="../index.html"><img src="img/logo_justCreate.svg" alt="Логотип «Только твори»"></a>
+      </div>
+      <nav class="header__nav nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--event"><a href="#">Мероприятия</a></li>
+          <li class="nav__item nav__item--team"><a href="#">Коллективы</a></li>
+          <li class="nav__item nav__item--users"><a href="#">Пользователи</a></li>
+          <li class="nav__item nav__item--privat">
+            <a href="#">
+              <p class="nav__avatar">
+                <img src="" alt="">
+                <!-- <img src="" alt="Фото пользователя"> -->
+              </p>
+              <span class="surname">Иван</span>
+              <span class="lastname">Иванов</span>
+              <!-- Личный кабинет -->
+            </a>
+            <ul class="nav__sublist">
+              <li class="nav__subitem">
+                <a href="../index.html">Выход</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <section class="header__user user">
+        <ul class="user__list">
+          <li class="user__item user__item--wallet"><a href="#"><span class="visuallyhidden">Кошелек</span></a></li>
+          <li class="user__item user__item--message"><a href="#"><span class="visuallyhidden">Сообщения</span></a></li>
+          <li class="user__item user__item--alert"><a href="#"><span class="visuallyhidden">Оповещения</span></a> </li>
+          <li class="user__item user__item--more"><a href="#"><span class="visuallyhidden">Больше информации</span></a></li>
+        </ul>
+      </section>
+    </section>
+  </header>
+
+  <main class="page__flex container">
+    <section class="menu menu--opened">
+      <ul class="menu__list">
+        <li class="menu__item menu__item--myevent menu__item--active"><a href="#">Мои мероприятия</a></li>
+        <li class="menu__item menu__item--myroles menu__item--sub"><a href="#">Мои роли</a>
+          <ul class="menu__sublist">
+            <li class="menu__subitem"><a href="#">Владелец мероприятия</a></li>
+            <li class="menu__subitem"><a href="#">Администратор</a></li>
+            <li class="menu__subitem"><a href="#">Судья</a></li>
+            <li class="menu__subitem"><a href="#">Руководитель коллектива</a></li>
+            <li class="menu__subitem"><a href="#">Участник коллектива</a></li>
+            <li class="menu__subitem"><a href="#">Ведущий</a></li>
+            <li class="menu__subitem"><a href="#">Хостес</a></li>
+            <li class="menu__subitem"><a href="#">Звукооператор</a></li>
+            <li class="menu__subitem"><a href="#">Подрядчик</a></li>
+            <li class="menu__subitem"><a href="#">Наблюдатель</a></li>
+          </ul>
+        </li>
+        <li class="menu__item menu__item--add menu__item--sub"><a href="#">Создать</a>
+          <ul class="menu__sublist">
+            <li class="menu__subitem"><a href="#">Новое мероприятие</a></li>
+            <li class="menu__subitem"><a href="#">Новый коллектив</a></li>
+            <li class="menu__subitem"><a href="#">Новую услугу подрядчика</a></li>
+          </ul>
+        </li>
+        <li class="menu__item menu__item--calendar"><a href="#">Календарь занятости</a></li>
+        <li class="menu__item menu__item--portfolio"><a href="#">Портфолио</a></li>
+        <li class="menu__item menu__item--setting"><a href="#">Настройки</a></li>
+        <li class="menu__item menu__item--instruction"><a href="#">Инструкции по сервису</a></li>
+        <li class="menu__item menu__item--support menu__item--sub"><a href="#">Помощь</a>
+          <div class="menu__sublist">
+            <section class="menu__support">
+              <p class="menu__title">Бесплатная техподдержка</p>
+              <p class="menu__phone"> +7 900 123 45 67</p>
+              <p class="menu__email">support@justcreate.com</p>
+              <p class="menu__account">Код аккаунта: <span class="menu__accountCode">123456789</span></p>
+              <button class="menu__supportButton" type="button">Создать временный пароль</button>
+            </section>
+          </div>
+        </li>
+      </ul>
+      <button onclick="menuOpen(this)" class="menu__button">Свернуть меню</button>
+    </section>
+
+    <div class="container-flex" >
+      <section class="breadcrumbs">
+        <!-- <div class="container--shrink"> -->
+        <ul class="breadcrumbs__list">
+          <li class="breadcrumbs__item"><a href="index.html">Мои мероприятия</a></li>
+          <li class="breadcrumbs__item"><a class="js_contestTitle">Всероссийский АРТ-конкурс "Властелины искусства"</a></li>
+          <li class="breadcrumbs__item">Протокол голосования</li>
+        </ul>
+        <!-- </div> -->
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <!-- <div class="page__loading" data-status="show">
+      <svg class="page__spinner spinner" viewBox="0 0 50 50">
+        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+      </svg>
+    </div> -->
+
+  </main>
+
+  <!-- Футер -->
+
+  <footer class="footer">
+
+  </footer>
+
+  <section class="pop pop--result result">
+    <button class="pop__buttonClose" type="button" name="button"> <span class="visuallyhidden">Закрыть окно</span></button>
+    <div class="result__wrapTitle">
+      <p class="result__id"># <span class="js__">25</span></p>
+      <p class="result__title js__">Название выступления</p>
+    </div>
+
+    <div class="result__list">
+
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Костюм</label>
+          <!-- <div class="result__score"> -->
+          <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          <!-- </div> -->
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Идея</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Музыка</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Креатив</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Идея</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Музыка</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+      <div class="result__item">
+        <div class="result__wrap">
+          <label class="result__name">Креатив</label>
+          <div class="result__score">
+            <input class="result__input" type="number" name="1" value="0" min="0" max="150">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <input class="result__note" type="text" name="" value="Уточнить мнение коллег">
+
+    <div class="result__list--referee">
+
+      <div class="result__item">
+        <p class="result__referee">Игорь Миронов</p>
+        <span class="result__count">11</span>
+        <p class="result__referee">Илья Павлов</p>
+        <span class="result__count">12</span>
+        <p class="result__referee">Галина Луговая</p>
+        <span class="result__count">13</span>
+        <span class="result__point">10</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">21</span>
+        <span class="result__count">22</span>
+        <span class="result__count">23</span>
+        <span class="result__point">20</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">31</span>
+        <span class="result__count">32</span>
+        <span class="result__count">33</span>
+        <span class="result__point">30</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">41</span>
+        <span class="result__count">42</span>
+        <span class="result__count">43</span>
+        <span class="result__point">40</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">21</span>
+        <span class="result__count">22</span>
+        <span class="result__count">23</span>
+        <span class="result__point">20</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">31</span>
+        <span class="result__count">32</span>
+        <span class="result__count">33</span>
+        <span class="result__point">30</span>
+      </div>
+      <div class="result__item">
+        <span class="result__count">41</span>
+        <span class="result__count">42</span>
+        <span class="result__count">43</span>
+        <span class="result__point">40</span>
+      </div>
+
+    </div>
+    <p class="result__total">Итого: 600.0 баллов</p>
+
+
+
+
+
+  </section>
+
+  <section class="pop pop--password ">
+    <button class="pop__buttonClose" type="button" name="button"> <span class="visuallyhidden">Закрыть окно</span></button>
+    <p class="pop__title">Ваш временный пароль</p>
+    <div class="pop__password">
+      <span class="js__password">045893</span>
+      <button class="pop__btnCopy" type="button" name="button" title="Скопировать пароль в буфер обмена"> <span class="visuallyhidden">Скопировать пароль в буфер обмена</span></button>
+    </div>
+
+    <p class="pop__text">Действует до <span class="js__validity">12 января 2019г.</span></p>
+    <p class="pop__info">Не сообщайте этот пароль никому, кроме службы поддержки.</p>
+  </section>
+
+
+  <div class="overlay"></div>
+
+
+  <!-- <script src="js/jquery.maskedinput.min.js"></script> -->
+  <script src="js/ajax.js"></script>
+  <script src="slick/slick.js"></script>
+  <script src="js/pdfmake.min.js"></script>
+  <script src="js/vfs_fonts.js"></script>
+  <script src="js/xepOnline.jqPlugin.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/script_test.js"></script>
+  <!-- <script src="js/picturefill.js"></script> -->
+
+</body>
+
+</html>
