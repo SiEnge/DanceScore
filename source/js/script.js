@@ -636,6 +636,10 @@ function countPrize() {
   var prizesChoice = document.querySelectorAll(".nomination__choice");
   var prizeItem = document.querySelectorAll(".awards__item");
   var prizeAmount = [];
+  var page = document.querySelector(".page");
+  var pageMsg = page.querySelector(".header__message");
+  var resultFix = page.querySelector(".wrap__resultFix");
+  var flagError = false;
 
   //подсчет выбранных призов по видам
   for (var i = 0; i < prizeItem.length; i++) {
@@ -654,16 +658,9 @@ function countPrize() {
     if (+prizeItem[i].querySelector(".awards__amount--selected").innerHTML > +prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "many";
     if (+prizeItem[i].querySelector(".awards__amount--selected").innerHTML == +prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "ok";
     if (+prizeItem[i].querySelector(".awards__amount--selected").innerHTML < +prizeItem[i].querySelector(".awards__amount--all").innerHTML) prizeItem[i].dataset.prizeStatus = "few";
-    if (prizeItem[i].querySelector(".awards__amount--all").innerHTML == "0") {
-      prizeItem[i].dataset.prizeStatus = "base";
-    }
+    if (prizeItem[i].querySelector(".awards__amount--selected").innerHTML == "0" && prizeItem[i].querySelector(".awards__amount--all").innerHTML == "0") prizeItem[i].dataset.prizeStatus = "base";
   }
 
-  var flagError = false;
-  var page = document.querySelector(".page");
-  var pageMsg = page.querySelector(".header__message");
-
-  var resultFix = page.querySelector(".wrap__resultFix");
 
   for (var i = 0; i < prizeItem.length; i++) {
     if (prizeItem[i].dataset.prizeStatus == "many") {
@@ -1398,3 +1395,22 @@ window.addEventListener('scroll', function(e) {
 //   document.getElementById('page').style.display = true ? 'block' : 'none';
 //   document.getElementById('loading').style.display = false ? 'block' : 'none';
 // });
+
+//------------------------------------------------------------------------------
+//СТРАНИЦА registration.html - "Подведение итогов"
+
+function addDirector(btn) {
+  var fieldDirector = btn.parentElement;
+  var wrapDirector = fieldDirector.querySelector(".form-registration__wrap--director");
+
+  var wrapDirectorClone = wrapDirector.cloneNode(true);
+
+  // scoringItemClone.querySelector(".scoring__name").innerHTML = json[formInfo].criteria[key];
+  // scoringItemClone.querySelector(".scoring__input").value = json[formInfo].rating[key];
+  //
+  // var scoringInput = scoringItemClone.querySelector(".scoring__input");
+  //
+  // scoringInput.name = key;
+  wrapDirectorClone.appendChild(fieldDirector);
+  scoringList.appendChild(scoringItemClone)
+}
