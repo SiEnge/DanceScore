@@ -51,14 +51,28 @@
     width: 31%;
     flex: 0 0 31%;
   }
+  &--teamName {
+    position: relative;
+  }
   &[data-staus="hide"] {
     visibility: hidden;
   }
 }
 
-// .form-registration__input-number {
-//
-// }
+.js_listTeamName {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  top: 100%;
+  width: 100%;
+}
+
+.js_itemTeamName {
+  background-color: @white;
+  padding: 10px;
+}
+
 
 .form-registration__label {
   color: @dark-grey;

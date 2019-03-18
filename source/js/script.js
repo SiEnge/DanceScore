@@ -704,11 +704,9 @@ function choicePrize(nominationItem) {
   nomChoice.dataset.prizeIdChoice = nominationItem.dataset.prizeId;
 
   var data = {
-    "set_data": {
-      "performance_prize_manual":{
-        "performance_id": nomination.dataset.performanceId,
-        "prize_id": nominationItem.dataset.prizeId
-      }
+    "set_performance_prize_manual":{
+      "performance_id": nomination.dataset.performanceId,
+      "prize_id": nominationItem.dataset.prizeId
     }
   }
   var json = JSON.stringify(data);

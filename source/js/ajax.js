@@ -29,7 +29,6 @@ function setAjax(json) {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'https://толькотвори.рф/ajax.php', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.send(json);
 
   xhr.addEventListener('readystatechange', function() {
     if ((xhr.readyState == 4) && (xhr.status == 200)) {
@@ -38,6 +37,7 @@ function setAjax(json) {
     }
   });
 
+  xhr.send(json);
 }
 
 //отправка данных о выставленных баллах по каждому критерию

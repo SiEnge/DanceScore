@@ -17,7 +17,6 @@ if(isset($_POST))
 
 $_JSON = json_decode(file_get_contents('php://input'),true);
 
-//############## информация по номеру для страницы голосования ###################
 if(isset($_POST['get_performance_info']) && logged_in())
 	{
 	$referee_id=$_SESSION['refereeId'];
@@ -127,7 +126,96 @@ if(isset($_POST['get_performance_info']) && logged_in())
 	echo json_encode($arr_result, JSON_UNESCAPED_UNICODE);
 	}
 
-//############## чтение произвольных данных (универсальный запрос) ###################
+if(isset($_JSON['set_rating']) && logged_in())
+	{
+	$referee_id=$_SESSION['refereeId'];
+
+	$arr=$_JSON['set_rating'];
+	$performance_id=$arr['performance_id'];
+	$criteria_id=$arr['criteria_id'];
+	$rating=$arr['rating'];
+	$rating=str_replace(",",".",$rating);
+
+	//записываем оценку в БД
+	$qry="INSERT INTO Rating (performanceId,refereeId,criteriaId,rating) VALUES('".$performance_id."','".$referee_id."','".$criteria_id."','".$rating."') ON DUPLICATE KEY UPDATE rating='".$rating."'";
+	mysqli_query($connection,$qry);
+
+	$logfile=fopen($logfilename,"a+");
+	fwrite($logfile,$qry."\n");
+	fclose($logfile);
+
+	//записываем текущий СriteriaId в lastCriteriaId
+	$qry="UPDATE Referee SET lastCriteriaId=".$criteria_id." WHERE refereeId=".$referee_id;
+	mysqli_query($connection,$qry);
+
+	//получаем список оцененных критериев
+	$arr_rating=array();
+	$res=mysqli_query($connection,"SELECT criteriaId,rating FROM Rating WHERE performanceId=".$performance_id." AND refereeId=".$referee_id." AND rating>0");
+	while($arr=mysqli_fetch_assoc($res))
+			$arr_rating[$arr['criteriaId']]=$arr['rating'];
+
+	//сравниваем список оцененных критериев со всем списком критериев
+	$end=1;
+	$res=mysqli_query($connection,"SELECT c.criteriaId FROM Criteria c, Referee r WHERE c.contestId=r.contestId AND r.refereeId=".$referee_id);
+	while($arr=mysqli_fetch_assoc($res))
+		{	
+		if(!isset($arr_rating[$arr['criteriaId']]))
+			{
+			$end=0;
+			break;
+			}
+		}
+	
+	if($end==1)
+		{//все критерии оценены, записываем performanceId в lastPerformanceId
+		$qry="UPDATE Referee SET lastPerformanceId=".$performance_id." WHERE refereeId=".$referee_id;
+		mysqli_query($connection,$qry);
+
+		//########## расчет запись performanceRating #########
+		//ratingMethod=1: среднее сумм критериев всех судей (сумма сумм критериев всех судей / кол-во критериев всех судей)
+		//ratingMethod=2: сумма средних критериев всех судей
+		//ratingMethod=3: сумма сумм критериев всех судей
+		$qry="SELECT ratingMethod FROM Nomination WHERE contestId IN (SELECT contestId FROM Referee WHERE refereeId=".$referee_id.")";
+		$arr=mysqli_fetch_assoc(mysqli_query($connection,$qry));
+		$rating_method=$arr['ratingMethod'];
+		$rating_summ=0;
+		$rating_cnt=0;
+		$qry="SELECT COUNT(*) as cnt, AVG(rating) as avg_r, SUM(rating) as sum_r FROM Rating WHERE performanceId=".$performance_id." GROUP BY refereeId";
+		$res=mysqli_query($connection,$qry);
+		while($arr=mysqli_fetch_assoc($res))
+			{
+			if($rating_method==2)
+				$rating_summ+=$arr['avg_r'];
+			else
+				$rating_summ+=$arr['sum_r'];
+			$rating_cnt+=$arr['cnt'];
+			}
+		if($rating_method==1)
+			$rating_summ=$rating_summ/$rating_cnt;
+		$rating_summ=round($rating_summ);
+		$qry="UPDATE Performance SET performanceRating='".$rating_summ."' WHERE performanceId=".$performance_id;
+		mysqli_query($connection,$qry);
+		}
+
+	echo json_encode(array("end" => $end), JSON_UNESCAPED_UNICODE);
+	}
+
+if(isset($_JSON['set_note']) && logged_in())
+	{
+	$referee_id=$_SESSION['refereeId'];
+
+	$arr=$_JSON['set_note'];
+	$performance_id=$arr['performance_id'];
+	$note=mysqli_real_escape_string($connection,$arr['note']);
+
+	$qry="INSERT INTO PerformanceNote (performanceId,refereeId,noteText) VALUES('".$performance_id."','".$referee_id."','".$note."') ON DUPLICATE KEY UPDATE noteText='".$note."'";
+	mysqli_query($connection,$qry);
+
+	$logfile=fopen($logfilename,"a+");
+	fwrite($logfile,$qry."\n");
+	fclose($logfile);
+	}
+
 if(isset($_JSON['get_data']) && logged_in())
 	{
 	$logfile=fopen($logfilename,"a+");fwrite($logfile,"get_data\n");fclose($logfile);
@@ -162,11 +250,9 @@ if(isset($_JSON['get_data']) && logged_in())
 		$size=0;
 	//exit(json_encode(array("error" => "type error"))); 
 
-	if(isset($_JSON['get_data']['data']))
-		{
-		$data=$_JSON['get_data']['data'];
-		$logfile=fopen($logfilename,"a+");fwrite($logfile,"data=".count($data)."\n");fclose($logfile);
-		}
+	$data=$_JSON['get_data']['data'];
+
+	$logfile=fopen($logfilename,"a+");fwrite($logfile,"data=".count($data)."\n");fclose($logfile);
 
 	if(isset($_JSON['get_data']['performance_id']))
 		{//запрошена информация по номерам
@@ -269,7 +355,7 @@ if(isset($_JSON['get_data']) && logged_in())
 				{
 				if(!isset($arr_age[$arr_performance['ageCategoryId']]))
 						$arr_age[$arr_performance['ageCategoryId']]=array(
-							'title' => "-н/д-".$arr_performance['ageCategoryId']."-",
+							'title' => "-н/д-".$arr_performance['ageCategoryId']."/".$contest_id."-",
 							'color' => "60,50,70",
 							);
 				$arr_data['performance_age_category']=array(
@@ -297,7 +383,7 @@ if(isset($_JSON['get_data']) && logged_in())
 				{
 				if(!isset($arr_nomination[$arr_performance['nominationId']]))
 						$arr_nomination[$arr_performance['nominationId']]=array(
-							'title' => "-н/д-".$arr_performance['nominationId']."-",
+							'title' => "-н/д-".$arr_performance['nominationId']."/".$contest_id."-",
 							'color' => "60,100,70",
 							);
 				$arr_data['performance_nomination']=array(
@@ -312,11 +398,15 @@ if(isset($_JSON['get_data']) && logged_in())
 				}
 			if(isset($arr_data['performance_prize']))
 				{
-				$arr_data['performance_prize']=$arr_performance['prizeId'];
+				foreach($arr_prize_rating as $p_id => $p_rating)
+					{
+					if($arr_data['performance_rating_sum']>$p_rating)
+						$arr_data['performance_prize']=$p_id;
+					}
 				}
 			if(isset($arr_data['performance_prize_manual']))
 				{
-				$arr_data['performance_prize_manual']=$arr_performance['prizeIdManual'];
+				$arr_data['performance_prize_manual']=$arr_performance['prizeManual'];
 				}
 			if(isset($arr_data['performance_director']))
 				{
@@ -356,18 +446,14 @@ if(isset($_JSON['get_data']) && logged_in())
 		{//запрошена информация по авторизованному пользователю
 		$data=$_JSON['get_data'];
 		$qry="SELECT * FROM People WHERE peopleId=".$_SESSION['peopleId'];
-		$arr=mysqli_fetch_assoc(mysqli_query($connection,$qry));
+		$arr=mysql_fetch_assoc(mysql_query($connection,$qry));
 		$arr_result=array(
 			'surname' => $arr['surname'],
 			'lastname' => $arr['lastname'],
 			'middlename' => $arr['middlename'],
 			);
-		$logfile=fopen($logfilename,"a+");
-		fwrite($logfile,date("Y-m-d H:i:s").":\n".json_encode($arr_result, JSON_UNESCAPED_UNICODE)."\n");
-		fclose($logfile);
 		}
 
-	if(isset($data))
 	if(count($data)<3)
 		{
 		$logfile=fopen($logfilename,"a+");
@@ -376,171 +462,6 @@ if(isset($_JSON['get_data']) && logged_in())
 		}
 
 	echo json_encode($arr_result, JSON_UNESCAPED_UNICODE);
-	}
-
-//#######################################################################
-//################ ЗАПИСЬ ДАННЫХ (ОТДЕЛЬНЫЕ ЗАПРОСЫ) ####################
-//#######################################################################
-
-//############## запись оценки по критерию ###################
-if(isset($_JSON['set_rating']) && logged_in())
-	{
-	$referee_id=$_SESSION['refereeId'];
-
-	$arr=$_JSON['set_rating'];
-	$performance_id=$arr['performance_id'];
-	$criteria_id=$arr['criteria_id'];
-	$rating=$arr['rating'];
-	$rating=str_replace(",",".",$rating);
-
-	//записываем оценку в БД
-	$qry="INSERT INTO Rating (performanceId,refereeId,criteriaId,rating) VALUES('".$performance_id."','".$referee_id."','".$criteria_id."','".$rating."') ON DUPLICATE KEY UPDATE rating='".$rating."'";
-	mysqli_query($connection,$qry);
-
-	$logfile=fopen($logfilename,"a+");
-	fwrite($logfile,$qry."\n");
-	fclose($logfile);
-
-	//записываем текущий СriteriaId в lastCriteriaId
-	$qry="UPDATE Referee SET lastCriteriaId=".$criteria_id." WHERE refereeId=".$referee_id;
-	mysqli_query($connection,$qry);
-
-	//получаем список оцененных критериев
-	$arr_rating=array();
-	$res=mysqli_query($connection,"SELECT criteriaId,rating FROM Rating WHERE performanceId=".$performance_id." AND refereeId=".$referee_id." AND rating>0");
-	while($arr=mysqli_fetch_assoc($res))
-			$arr_rating[$arr['criteriaId']]=$arr['rating'];
-
-	//сравниваем список оцененных критериев со всем списком критериев
-	$end=1;
-	$res=mysqli_query($connection,"SELECT c.criteriaId FROM Criteria c, Referee r WHERE c.contestId=r.contestId AND r.refereeId=".$referee_id);
-	while($arr=mysqli_fetch_assoc($res))
-		{	
-		if(!isset($arr_rating[$arr['criteriaId']]))
-			{
-			$end=0;
-			break;
-			}
-		}
-	
-	if($end==1)
-		{//все критерии оценены, записываем performanceId в lastPerformanceId
-		$qry="UPDATE Referee SET lastPerformanceId=".$performance_id." WHERE refereeId=".$referee_id;
-		mysqli_query($connection,$qry);
-
-		$qry="SELECT contestId FROM Referee WHERE refereeId=".$referee_id;
-		$arr=mysqli_fetch_assoc(mysqli_query($connection,$qry));
-		$contest_id=$arr['contestId'];
-
-		//########## расчет рейтинга (performanceRating) #########
-		//ratingMethod=1: среднее сумм критериев всех судей (сумма сумм критериев всех судей / кол-во критериев всех судей)
-		//ratingMethod=2: сумма средних критериев всех судей
-		//ratingMethod=3: сумма сумм критериев всех судей
-		$qry="SELECT ratingMethod FROM Nomination WHERE contestId=".$contest_id;
-		$arr=mysqli_fetch_assoc(mysqli_query($connection,$qry));
-		$rating_method=$arr['ratingMethod'];
-		$rating_summ=0;
-		$rating_cnt=0;
-		$qry="SELECT COUNT(*) as cnt, AVG(rating) as avg_r, SUM(rating) as sum_r FROM Rating WHERE performanceId=".$performance_id." GROUP BY refereeId";
-		$res=mysqli_query($connection,$qry);
-		while($arr=mysqli_fetch_assoc($res))
-			{
-			if($rating_method==2)
-				$rating_summ+=$arr['avg_r'];
-			else
-				$rating_summ+=$arr['sum_r'];
-			$rating_cnt+=$arr['cnt'];
-			}
-		if($rating_method==1)
-			$rating_summ=$rating_summ/$rating_cnt;
-		$rating_summ=round($rating_summ);
-
-		//########## определение приза (prizeId) #########
-		$rating_prize=0;
-		$qry="SELECT prizeId FROM Prize WHERE contestId=".$contest_id." AND prizeRating<".$prizeRating." ORDER BY prizeRating DESC LIMIT 1";
-		$res=mysqli_query($connection,$qry);
-		if(mysqli_num_rows($res)>0)
-			{
-			$arr=mysqli_fetch_assoc($res);
-			$rating_prize=$arr['prizeId'];
-			}
-
-		//########## запись performanceRating,prizeId #########
-		$qry="UPDATE Performance SET performanceRating='".$rating_summ."',prizeId='".$rating_prize."' WHERE performanceId=".$performance_id;
-		mysqli_query($connection,$qry);
-		}
-
-	echo json_encode(array("end" => $end), JSON_UNESCAPED_UNICODE);
-	}
-
-//############## запись заметки для номера ###################
-if(isset($_JSON['set_performance_note']) && logged_in())
-	{
-	$referee_id=$_SESSION['refereeId'];
-
-	$arr=$_JSON['set_performance_note'];
-	$performance_id=$arr['performance_id'];
-	$note=mysqli_real_escape_string($connection,$arr['note']);
-
-	$qry="INSERT INTO PerformanceNote (performanceId,refereeId,noteText) VALUES('".$performance_id."','".$referee_id."','".$note."') ON DUPLICATE KEY UPDATE noteText='".$note."'";
-	mysqli_query($connection,$qry);
-
-	$logfile=fopen($logfilename,"a+");
-	fwrite($logfile,$qry."\n");
-	fclose($logfile);
-	}
-
-//############## запись приза, измененного вручную ###################
-if(isset($_JSON['set_prize_manual']) && logged_in())
-	{
-	$data=$_JSON['set_prize_manual'];
-	$performance_id=$data['performance_id'];
-	$prize_id=$data['prize_id'];
-	$qry="UPDATE Performance SET prizeIdManual='".$prize_id."' WHERE performanceId=".$performance_id;
-	mysqli_query($connection,$qry);
-	}
-
-//############## создание/изменение номера с названием ###################
-if(isset($_JSON['set_performance_title']) && logged_in())
-	{
-	$data=$_JSON['set_performance_title'];
-	$performance_id=$data['performance_id'];
-	$performance_title=mysqli_real_escape_string($data['performance_title']);
-	$arr_result=array();
-	if($performance_id==0)
-		{
-		$qry="INSERT INTO Performance(performanceTitle) VALUES('".$performance_title."')";
-		mysqli_query($connection,$qry);
-		$performance_id=mysqli_insert_id($connection);
-		}
-	else
-		{
-		$qry="UPDATE Performance SET performanceTitle='".$performance_title."' WHERE performanceId=".$performance_id;
-		mysqli_query($connection,$qry);
-		}
-	$arr_result['result']="OK";
-	$arr_result['performance_id']=$performance_id;
-	echo json_encode($arr_result, JSON_UNESCAPED_UNICODE);
-	}
-
-//############## создание/изменение организации ###################
-if(isset($_JSON['set_organization_title']) && logged_in())
-	{
-	}
-
-//############## создание/изменение коллектива ###################
-if(isset($_JSON['set_team_title']) && logged_in())
-	{
-	}
-
-//############## изменение города коллектива ###################
-if(isset($_JSON['set_team_city']) && logged_in())
-	{
-	}
-
-//############## изменение номинации коллектива ###################
-if(isset($_JSON['set_performance_nomination']) && logged_in())
-	{
 	}
 
 if(isset($_GET['debug']))
