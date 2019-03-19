@@ -73,26 +73,39 @@ function ajaxNominant(json) {
 
 }
 
-function createDataContestAll() {
+function createDataContestAll(id, size) {
   //Запрос
    var data = {
      "get_data":{
-       "contest_id":"1",
-       "size":"all",
+       "contest_id": id,
+       "size": size,
        "data":{
          "title":""
        }
      }
    };
    return JSON.stringify(data);
+}
 
+function createDataTeamAll() {
+  //Запрос
+   var data = {
+     "get_data":{
+       "team_id":"0",
+       "size":"all",
+       "data":{
+         "team_title":""
+       }
+     }
+   };
+   return JSON.stringify(data);
 }
 
 function createDataOrganizationAll() {
   //Запрос
    var data = {
      "get_data":{
-       "organization_id":"1",
+       "organization_id":"0",
        "size":"all",
        "data":{
          "organization_title":""
@@ -106,7 +119,7 @@ function createContestNominationAll(id) {
    var data = {
      "get_data":{
        "contest_id": id,
-       "size":"all",
+       "size":"0",
        "data":{
          "nomination_title":""
        }
@@ -118,11 +131,20 @@ function createContestNominationAll(id) {
 function createPerformancenAll() {
    var data = {
      "get_data":{
-       "performance_id":"1",
+       "performance_id":"0",
        "size":"all",
        "data":{
          "performance_title":""
        }
+     }
+   };
+   return JSON.stringify(data);
+}
+
+function createPeople() {
+   var data = {
+     "get_data":{
+       "people_my_name":""
      }
    };
    return JSON.stringify(data);
@@ -155,7 +177,7 @@ function createDataPerformance() {
   var data = {
     "get_data": {
       "performance_id": "0",
-      "size": "100",
+      "size": "all",
       "data": {
         "performance_age_category": "", //возрастная категория
         "performance_nomination": "", //категория номинации
@@ -175,7 +197,7 @@ function createDataDiploma() {
   var data = {
     "get_data": {
       "performance_id": "0",
-      "size": "100",
+      "size": "all",
       "data": {
         "performance_prize_manual": "", //призовое место выбранное вручную
         "performance_prize": "", //призовое место выбранное программно
