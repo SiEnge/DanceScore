@@ -27,14 +27,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  &--teamCount {
-    .form-registration__label {
-      // flex: 1 0 auto;
-    }
-  }
 }
 
 .form-registration__input-wrap {
+  position: relative;
   border: 1px solid @grey;
   border-radius: 5px;
   box-shadow: @shadow;
@@ -43,38 +39,41 @@
   margin-bottom: 10px;
   display: flex;
   align-items: baseline;
-  &--2col {
+  &[data-width="2col"] {
     width: 48%;
     flex: 0 0 48%;
   }
-  &--3col {
+  &[data-width="3col"] {
     width: 31%;
     flex: 0 0 31%;
   }
-  &--teamName {
-    position: relative;
-  }
-  &[data-staus="hide"] {
+  &[data-status="hide"] {
     visibility: hidden;
   }
-}
+  &:hover .form-registration__select {
+    display: block;
+  }
 
-.js_listTeamName {
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  top: 100%;
-  width: 100%;
-}
+  &[data-arrow="one"]::before {
+    content: "";
+    position: absolute;
+    z-index: 8;
+    right: 10px;
+    top: 13px;
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/arrow_grey.svg");
+    background-size: 15px 8px;
 
-.js_itemTeamName {
-  background-color: @white;
-  padding: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
 }
 
 
 .form-registration__label {
+  position: relative;
   color: @dark-grey;
   font-size: 12px;
   line-height: 14px;
@@ -83,11 +82,26 @@
   padding-top: 5px;
   padding-bottom: 5px;
   border-right: 1px solid @grey;
-  // flex: 1 0 auto;
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  &[data-img="star"]::before {
+    background-size: 15px;
+    background-image: url("../img/star_fill_grey.svg");
+
+  }
 }
 
 .form-registration__input {
   padding: 10px 15px;
+  padding-right: 30px;
   font-size: 12px;
   border: none;
   background-color: transparent;
@@ -101,6 +115,10 @@
   }
 }
 
+// .form-registration__buttonWrap {
+//   display: flex;
+// }
+
 .form-registration__button {
   border: none;
   background-image: linear-gradient(45deg, #51ddd4 0%, #66ccff 100%);
@@ -110,8 +128,9 @@
   color: @white;
   text-transform: uppercase;
   display: block;
-  margin-left: auto;
-  margin-right: 0;
+  // margin-left: auto;
+  display: inline-block;
+  margin-right: 10px;
   font-weight: 700;
   font-size: 12px;
   cursor: pointer;
@@ -137,5 +156,84 @@
   }
   input[type=file]:focus + label {
        outline: -webkit-focus-ring-color auto 5px;
+  }
+}
+
+.form-registration__message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: right;
+  width: calc(100% - 32px);
+  z-index: 10;
+  margin: 0;
+  background: @white;
+  color: @dark-grey;
+  padding: 15px;
+  border: 1px solid @grey;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  &[data-status="hide"] {
+    display: none;
+  }
+  &[data-status="show"] {
+    display: block;
+  }
+}
+
+
+.form-registration__select {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  width: 100%;
+  z-index: 15;
+  background-color: @white;
+  border: 1px solid @grey;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  max-height: 174px;
+  overflow-y: scroll;
+  &[data-status="hide"] {
+    display: none;
+  }
+  &[data-status="show"] {
+    display: block;
+  }
+}
+
+
+.form-registration__option {
+  background-color: @white;
+  font-size: 12px;
+  line-height: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  p {
+    margin: 0;
+    padding-left: 30px;
+    padding-right: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid @light-grey;
+    cursor: pointer;
+  }
+  &:last-child p {
+    border-bottom: none;
+  }
+  &:hover {
+    background-color: @light-turquoise;
+    p {
+      border-bottom-color: @light-turquoise;
+    }
   }
 }

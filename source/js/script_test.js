@@ -1,24 +1,4 @@
-// поиск по выпадающему списку
-var list = [
-  "Ромашки",
-  "Цветочки",
-  "Ромашки 2",
-  "Бусинки",
-  "Цветные",
-  "Веснушки"
 
-]
-
-function searchList(input) {
-  var entered = input.value;
-  var listResult = [];
-  for (var i = 0; i < list.length; i++) {
-    if (list[i].indexOf(entered) >= 0) {
-      listResult.push(list[i]);
-    }
-  }
-  return listResult;
-}
 
 //Печать протокола
 var btnPrintProtocol = document.querySelector(".printing__button--protocol");

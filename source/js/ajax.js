@@ -40,6 +40,7 @@ function setAjax(json) {
   xhr.send(json);
 }
 
+
 //отправка данных о выставленных баллах по каждому критерию
 function ajaxRating(json) {
   var xhr = new XMLHttpRequest();
@@ -72,6 +73,60 @@ function ajaxNominant(json) {
 
 }
 
+function createDataContestAll() {
+  //Запрос
+   var data = {
+     "get_data":{
+       "contest_id":"1",
+       "size":"all",
+       "data":{
+         "title":""
+       }
+     }
+   };
+   return JSON.stringify(data);
+
+}
+
+function createDataOrganizationAll() {
+  //Запрос
+   var data = {
+     "get_data":{
+       "organization_id":"1",
+       "size":"all",
+       "data":{
+         "organization_title":""
+       }
+     }
+   };
+   return JSON.stringify(data);
+}
+
+function createContestNominationAll(id) {
+   var data = {
+     "get_data":{
+       "contest_id": id,
+       "size":"all",
+       "data":{
+         "nomination_title":""
+       }
+     }
+   };
+   return JSON.stringify(data);
+}
+
+function createPerformancenAll() {
+   var data = {
+     "get_data":{
+       "performance_id":"1",
+       "size":"all",
+       "data":{
+         "performance_title":""
+       }
+     }
+   };
+   return JSON.stringify(data);
+}
 
 function createDataUser() {
   var data = {

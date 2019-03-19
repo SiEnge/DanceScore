@@ -35,54 +35,55 @@
 
       <section>
         <form class="form-registration" action="#" method="post">
+          <fieldset class="form-registration__field form-registration__field--director">
+            <!-- <legend class="form-registration__legend">Руководители коллектива</legend> -->
+            <div class="form-registration__input-wrap js_inputContest" onclick="choiceContest(this)" data-width="2col" data-arrow="one">
+              <label class="form-registration__label" for="contest">Название соревнования</label>
+              <input class="form-registration__input" data-input="contest" type="text" name="contest" value="" id="teamName" autocomplete="off">
+            </div>
+          </fieldset>
           <fieldset class="form-registration__field form-registration__field--team">
             <legend class="form-registration__legend">Заполните информацию о коллективе-участнике</legend>
             <!-- <p class="form-registration__text">Заполните информацию о коллективе-участнике</p> -->
             <div class="form-registration__wrap">
-              <div class="form-registration__input-wrap form-registration__input-wrap--2col form-registration__input-wrap--teamName" >
+              <div class="form-registration__input-wrap js_inputTeamName" data-width="2col" data-arrow="one">
                 <label class="form-registration__label" for="teamName">Название коллектива</label>
-                <input class="form-registration__input" type="text" name="teamName" value="" id="teamName">
-                <!-- <input class="form-registration__input" oninput="searchList(this)" type="text" name="teamName" value="" id="teamName"> -->
-                <!-- <ul class="js_listTeamName">
-                  <li class="js_itemTeamName">Веснушки</li>
-                  <li class="js_itemTeamName">Веснушки 2</li>
-                  <li class="js_itemTeamName">Веснушки 3</li>
-                </ul> -->
+                <input class="form-registration__input" data-input="teamName" type="text" name="teamName" value="" id="teamName" autocomplete="off">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+              <div class="form-registration__input-wrap" data-width="2col">
                 <label class="form-registration__label" for="locality">Населенный пункт</label>
-                <input class="form-registration__input" type="text" name="locality" value="Екатеринбург" id="locality">
+                <input class="form-registration__input" type="text" name="locality" value="" id="locality" autocomplete="off">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
-                <label class="form-registration__label" for="team">Учреждение</label>
-                <input class="form-registration__input" type="text" name="team" value="Школа искусств" id="team">
+              <div class="form-registration__input-wrap js_inputOrganization" onclick="choiceOrganization(this)" data-width="2col" data-arrow="one">
+                <label class="form-registration__label" for="organization">Учреждение</label>
+                <input class="form-registration__input" data-input="organization" type="text" name="organization" value="" id="team" autocomplete="off">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
-                <label class="form-registration__label" for="namePerformance">Название номера</label>
-                <input class="form-registration__input" type="text" name="namePerformance" value="Ромашки" id="namePerformance">
+              <div class="form-registration__input-wrap js_inputPerformance" onclick="choicePerformance(this)" data-width="2col" data-arrow="one">
+                <label class="form-registration__label" for="performance">Название номера</label>
+                <input class="form-registration__input" data-input="performance" type="text" name="performance" value="" id="performance" autocomplete="off">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--2col">
+              <div class="form-registration__input-wrap js_inputNomination" onclick="choiceNomination(this)" data-width="2col" data-arrow="one">
                 <label class="form-registration__label" for="nomination">Номинация</label>
-                <input class="form-registration__input" type="text" name="nomination" value="Современная хореография" id="nomination">
+                <input class="form-registration__input" data-input="nomination" type="text" name="nomination" value="" id="nomination" autocomplete="off">
               </div>
             </div>
             <div class="form-registration__wrap form-registration__wrap--teamCount">
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="teamCount">Число выступающих</label>
                 <!-- <div class="form-registration__input-number"> -->
-                  <input class="form-registration__input form-registration__input--number" type="number" name="teamCount" value="10" id="teamCount">
+                  <input class="form-registration__input form-registration__input--number" type="number" name="teamCount" value="" id="teamCount" min="0" max="300">
                 <!-- </div> -->
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="minAge">Мин. возраст выступающих</label>
                 <!-- <div class="form-registration__input-number"> -->
-                  <input class="form-registration__input form-registration__input--number" type="number" name="minAge" value="6" id="minAge">
+                  <input class="form-registration__input form-registration__input--number" type="number" name="minAge" value="" id="minAge" min="0" max="150">
                 <!-- </div> -->
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="maxAge">Макс. возраст выступающих</label>
                 <!-- <div class="form-registration__input-number"> -->
-                  <input class="form-registration__input form-registration__input--number" type="number" name="maxAge" value="12" id="maxAge">
+                  <input class="form-registration__input form-registration__input--number" type="number" name="maxAge" value="" id="maxAge" min="0" max="150">
                 <!-- </div> -->
               </div>
             </div>
@@ -91,41 +92,39 @@
           <fieldset class="form-registration__field form-registration__field--director">
             <legend class="form-registration__legend">Руководители коллектива</legend>
             <div class="form-registration__wrap form-registration__wrap--director">
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="surname">Фамилия</label>
-                <input class="form-registration__input" type="text" name="surname" value="Иванов" id="surname">
+                <input class="form-registration__input" type="text" name="surname" value="" id="surname">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="lastname">Имя</label>
-                <input class="form-registration__input" type="text" name="lastname" value="Иван" id="lastname">
+                <input class="form-registration__input" type="text" name="lastname" value="" id="lastname">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="middlename">Отчество</label>
-                <input class="form-registration__input" type="text" name="middlename" value="Иванович" id="middlename">
+                <input class="form-registration__input" type="text" name="middlename" value="" id="middlename">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="position">Должность</label>
-                <input class="form-registration__input" type="text" name="position" value="Руководитель" id="position">
+                <input class="form-registration__input" type="text" name="position" value="" id="position">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col">
+              <div class="form-registration__input-wrap" data-width="3col">
                 <label class="form-registration__label" for="phone">Телефон</label>
-                <input class="form-registration__input" type="text" name="phone" value="" id="phone">
+                <input class="form-registration__input" type="text" name="phone" value="" pattern="\+7\s\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}" id="phone">
               </div>
-              <div class="form-registration__input-wrap form-registration__input-wrap--3col" data-staus="hide">
+              <div class="form-registration__input-wrap" data-width="3col" data-status="hide">
                 <label class="form-registration__label" for="none"></label>
                 <input class="form-registration__input" type="text" name="none" value="" id="none">
               </div>
             </div>
-
-            <!-- <button class="form-registration__button form-registration__button--addDirector" onclick="addDirector(this)" type="button" name="button">Добавить руководителя</button> -->
-
-
+            <button class="form-registration__button form-registration__button--addDirector" onclick="addDirector(this)" type="button" name="button">Добавить</button>
+            <button class="form-registration__button form-registration__button--removeDirector" onclick="removeDirector(this)" type="button" name="button">Убрать</button>
           </fieldset>
 
           <fieldset class="form-registration__field form-registration__field--file">
             <legend class="form-registration__legend">Загрузите свою фонограмму</legend>
             <p class="form-registration__text">Один или несколько файлов в аудиоформате до 50 Мб</p>
-            <div class="form-registration__wrap form-registration__wrap--file form-registration__input-wrap--3col">
+            <div class="form-registration__wrap form-registration__wrap--file" data-width="3col">
               <div class="form-registration__input form-registration__input--file" id="upload">
                 <input id="file-input" type="file" name="file" multiple>
                 <p class="form-registration__text">Перетащите файл сюда или <br>
@@ -181,7 +180,9 @@
   <script src="slick/slick.js"></script>
   <script src="js/pdfmake.min.js"></script>
   <script src="js/vfs_fonts.js"></script>
-  <script src="js/xepOnline.jqPlugin.js"></script>
+  <!-- <script src="js/xepOnline.jqPlugin.js"></script> -->
+  <script src="js/jquery.maskedinput.min.js"></script>
+
   <script src="js/script.js"></script>
   <script src="js/script_test.js"></script>
   <!-- <script src="js/picturefill.js"></script> -->
