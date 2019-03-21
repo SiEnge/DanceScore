@@ -47,8 +47,6 @@ function deleteCookie(name) {
 }
 
 
-// сначала  после ввода данных в форму (или при внесении в поля руководителя) идет проверка есть ли человек с people_id
-// https://hgf.xn--b1amedocbqle1i.xn--p1ai/index.php/Set_people_name
 var contestId;
 var contestList = [];
 var organizationtId;
@@ -94,6 +92,8 @@ function parseRegContestCookie(jsonText) {
   var jsonPerformanceAll = createPerformancenAll();
   var jsonTeamAll = createDataTeamAll();
 
+
+  //---GET-ORGANIZATION-TITLE---//
   //запрашиваем и выводим список Организаторов
   getAjax(jsonOrganizationtAll).then(function(response) {
     parseOrgContest(response);
@@ -101,6 +101,7 @@ function parseRegContestCookie(jsonText) {
     // console.log("Error!!!");
   });
 
+  //---GET-CONTEST-NOMINATION-TITLE---//
   //запрашиваем и выводим список Номинаций в данном Соревновании
   getAjax(jsonContestNominationAll).then(function(response) {
     parseConNomContest(response);
@@ -108,6 +109,7 @@ function parseRegContestCookie(jsonText) {
     // console.log("Error!!!");
   });
 
+  //---GET-PERFORMANCE-TITLE---//
   //запрашиваем и выводим список Названий номеров
   getAjax(jsonPerformanceAll).then(function(response) {
     parsePerfContest(response);
@@ -115,6 +117,7 @@ function parseRegContestCookie(jsonText) {
     // console.log("Error!!!");
   });
 
+  //---GET-TEAM-TITLE---//
   //запрашиваем и выводим список Названий команд
   getAjax(jsonTeamAll).then(function(response) {
     parseTeamContest(response);
@@ -229,6 +232,35 @@ if (formReg) {
     $("#phone").mask("+7 (999) 999-9999");
   });
 
+
+
+
+    document.onclick = function(event) {
+      event.preventDefault();
+
+      var target = event.target;
+
+      if (!target.classList.contains("form-registration__optionText") && !target.classList.contains("form-registration__input")) {
+        var selectLists = document.querySelectorAll(".form-registration__select");
+        for (var i = 0; i < selectLists.length; i++) {
+          if (selectLists[i].dataset.status == "show") {
+            selectLists[i].dataset.status = "hide";
+          }
+        }
+      }
+
+      if (target.classList.contains("form-registration__input")) {
+        var wrapClass = target.parentElement.classList;
+        var selectLists = document.querySelectorAll(".form-registration__select");
+        for (var i = 0; i < selectLists.length; i++) {
+          if (selectLists[i].dataset.status == "show" && selectLists[i].parentElement.classList != wrapClass) {
+            selectLists[i].dataset.status = "hide";
+          }
+        }
+      }
+    };
+
+
   //обработка событий на поле Название соревнований
   var wrapInputContest = document.querySelector(".js_inputContest");
   //обработка ввода текст и показ подхадящий вариантов
@@ -239,6 +271,16 @@ if (formReg) {
     }
   };
 
+  // ставим обработчики на фазе перехвата, последний аргумент true
+  wrapInputContest.addEventListener("focus", function() {
+    var selectList = wrapInputContest.querySelector(".form-registration__select");
+    if (selectList) {
+      selectList.dataset.status = "show";
+    }
+  }, true);
+
+
+
   //обработка клика на выпадающем списке:
   // - открытие следующих форм
   // - запрос organization, nomination, performance, team
@@ -248,59 +290,59 @@ if (formReg) {
       var input = wrapInputContest.querySelector(".form-registration__input");
       var li = target.parentElement;
       var flag = true;
-      //проверка внесенных данных в поле js_inputContest
-      // for (var i = 0; i < contestList.length; i++) {
-      //   if (input.value != contestList[i][1]) flag = false;
-      // }
-      if (flag) {
-        //если название соревнований есть в общем списке, то
-        // - записывается contest_id
-        // - открываются fieldTeam и fieldDir
-        // - запрашиваются данные
-        var fieldTeam = document.querySelector(".form-registration__field--team")
-        var fieldDir = document.querySelector(".form-registration__field--director")
-        input.value = target.innerText;
-        input.dataset.id = li.dataset.id;
-        contestId = li.dataset.id;
-        setCookie("contestId", li.dataset.id);
-        // var test = document.cookie;
 
-        fieldTeam.dataset.status = "show";
-        fieldDir.dataset.status = "show";
-
-        var jsonOrganizationtAll = createDataOrganizationAll();
-        var jsonContestNominationAll = createContestNominationAll(contestId);
-        var jsonPerformanceAll = createPerformancenAll();
-        var jsonTeamAll = createDataTeamAll();
-
-        //запрашиваем и выводим список Организаторов
-        getAjax(jsonOrganizationtAll).then(function(response) {
-          parseOrgContest(response);
-        }).catch(function(error) {
-          // console.log("Error!!!");
-        });
-
-        //запрашиваем и выводим список Номинаций в данном Соревновании
-        getAjax(jsonContestNominationAll).then(function(response) {
-          parseConNomContest(response);
-        }).catch(function(error) {
-          // console.log("Error!!!");
-        });
-
-        //запрашиваем и выводим список Названий номеров
-        getAjax(jsonPerformanceAll).then(function(response) {
-          parsePerfContest(response);
-        }).catch(function(error) {
-          // console.log("Error!!!");
-        });
-
-        //запрашиваем и выводим список Названий команд
-        getAjax(jsonTeamAll).then(function(response) {
-          parseTeamContest(response);
-        }).catch(function(error) {
-          // console.log("Error!!!");
-        });
+      //если название соревнований есть в общем списке, то
+      // - записывается contest_id
+      // - открываются fieldTeam и fieldDir
+      // - запрашиваются данные
+      var fieldTeam = document.querySelector(".form-registration__field--team")
+      var fieldDir = document.querySelector(".form-registration__field--director")
+      input.value = target.innerText;
+      input.dataset.id = li.dataset.id;
+      contestId = li.dataset.id;
+      setCookie("contestId", li.dataset.id);
+      // var test = document.cookie;
+      var selectList = wrapInputContest.querySelector(".form-registration__select");
+      if (selectList) {
+        selectList.dataset.status = "hide";
       }
+
+      fieldTeam.dataset.status = "show";
+      fieldDir.dataset.status = "show";
+
+      var jsonOrganizationtAll = createDataOrganizationAll();
+      var jsonContestNominationAll = createContestNominationAll(contestId);
+      var jsonPerformanceAll = createPerformancenAll();
+      var jsonTeamAll = createDataTeamAll();
+
+      //запрашиваем и выводим список Организаторов
+      getAjax(jsonOrganizationtAll).then(function(response) {
+        parseOrgContest(response);
+      }).catch(function(error) {
+        // console.log("Error!!!");
+      });
+
+      //запрашиваем и выводим список Номинаций в данном Соревновании
+      getAjax(jsonContestNominationAll).then(function(response) {
+        parseConNomContest(response);
+      }).catch(function(error) {
+        // console.log("Error!!!");
+      });
+
+      //запрашиваем и выводим список Названий номеров
+      getAjax(jsonPerformanceAll).then(function(response) {
+        parsePerfContest(response);
+      }).catch(function(error) {
+        // console.log("Error!!!");
+      });
+
+      //запрашиваем и выводим список Названий команд
+      getAjax(jsonTeamAll).then(function(response) {
+        parseTeamContest(response);
+      }).catch(function(error) {
+        // console.log("Error!!!");
+      });
+
     }
   };
 
@@ -312,7 +354,9 @@ if (formReg) {
 
     if (ul) {
       for (var i = 0; i < ul.length; i++) {
-        ul[i].dataset.status = "hide";
+        if (ul[i].dataset.status = "show") {
+          ul[i].dataset.status = "hide";
+        }
       }
     }
 
@@ -333,7 +377,6 @@ if (formReg) {
     setCookie("contestId", input.dataset.id);
   };
 
-
   //обработка событий на поле Название номинаций
   var wrapInputNomination = document.querySelector(".js_inputNomination");
   //обработка ввода текст и показ подхадящий вариантов
@@ -343,6 +386,14 @@ if (formReg) {
       searchInput(target, wrapInputNomination, nominationList);
     }
   };
+
+  // ставим обработчики на фазе перехвата, последний аргумент true
+  wrapInputNomination.addEventListener("focus", function() {
+    var selectList = wrapInputNomination.querySelector(".form-registration__select");
+    if (selectList) {
+      selectList.dataset.status = "show";
+    }
+  }, true);
 
   //обработка клика на выпадающем списке
   wrapInputNomination.onclick = function(event) {
@@ -355,6 +406,10 @@ if (formReg) {
       input.dataset.id = li.dataset.id;
       nominationtId = li.dataset.id;
       setCookie("nominationId", li.dataset.id);
+      var selectList = wrapInputNomination.querySelector(".form-registration__select");
+      if (selectList) {
+        selectList.dataset.status = "hide";
+      }
     }
   };
   //обработка события - потеря фокуса
@@ -365,7 +420,9 @@ if (formReg) {
 
     if (ul) {
       for (var i = 0; i < ul.length; i++) {
-        ul[i].dataset.status = "hide";
+          if (ul[i].dataset.status = "show") {
+            ul[i].dataset.status = "hide";
+          }
       }
     }
     if (message) {
@@ -387,6 +444,7 @@ if (formReg) {
   };
 
 
+
   //обработка событий на поле Название номера
   var wrapInputPerformance = document.querySelector(".js_inputPerformance");
   //обработка ввода текст и показ подхадящий вариантов
@@ -394,12 +452,17 @@ if (formReg) {
     var target = event.target;
     if (target.classList.contains("form-registration__input")) { //если событие = ввод в инпут
       searchInput(target, wrapInputPerformance, performanceList);
-
-
     }
-
-
   };
+
+  // ставим обработчики на фазе перехвата, последний аргумент true
+  wrapInputPerformance.addEventListener("focus", function() {
+    var selectList = wrapInputPerformance.querySelector(".form-registration__select");
+    if (selectList) {
+      selectList.dataset.status = "show";
+    }
+  }, true);
+
   //обработка клика на выпадающем списке
   wrapInputPerformance.onclick = function(event) {
     var target = event.target;
@@ -413,6 +476,10 @@ if (formReg) {
       setCookie("performanceId", li.dataset.id);
       // deleteCookie("performance-id");
       var test = document.cookie;
+      var selectList = wrapInputPerformance.querySelector(".form-registration__select");
+      if (selectList) {
+        selectList.dataset.status = "hide";
+      }
     }
   };
   //обработка события - потеря фокуса
@@ -423,7 +490,9 @@ if (formReg) {
 
     if (ul) {
       for (var i = 0; i < ul.length; i++) {
-        ul[i].dataset.status = "hide";
+        if (ul[i].dataset.status = "show") {
+          ul[i].dataset.status = "hide";
+        }
       }
     }
     if (message) {
@@ -453,6 +522,15 @@ if (formReg) {
       searchInput(target, wrapInputOrganization, organizationList);
     }
   };
+
+  // ставим обработчики на фазе перехвата, последний аргумент true
+  wrapInputOrganization.addEventListener("focus", function() {
+    var selectList = wrapInputOrganization.querySelector(".form-registration__select");
+    if (selectList) {
+      selectList.dataset.status = "show";
+    }
+  }, true);
+
   //обработка клика на выпадающем списке
   wrapInputOrganization.onclick = function(event) {
     var target = event.target;
@@ -472,6 +550,11 @@ if (formReg) {
         organizationtId = li.dataset.id;
         setCookie("organizationId", li.dataset.id);
 
+        var selectList = wrapInputOrganization.querySelector(".form-registration__select");
+        if (selectList) {
+          selectList.dataset.status = "hide";
+        }
+
       }
     }
   };
@@ -483,7 +566,9 @@ if (formReg) {
 
     if (ul) {
       for (var i = 0; i < ul.length; i++) {
-        ul[i].dataset.status = "hide";
+        if (ul[i].dataset.status = "show") {
+          ul[i].dataset.status = "hide";
+        }
       }
     }
 
@@ -514,6 +599,15 @@ if (formReg) {
       searchInput(target, wrapInputTeam, teamList);
     }
   };
+
+  // ставим обработчики на фазе перехвата, последний аргумент true
+  wrapInputTeam.addEventListener("focus", function() {
+    var selectList = wrapInputTeam.querySelector(".form-registration__select");
+    if (selectList) {
+      selectList.dataset.status = "show";
+    }
+  }, true);
+
   //обработка клика на выпадающем списке
   wrapInputTeam.onclick = function(event) {
     var target = event.target;
@@ -533,6 +627,11 @@ if (formReg) {
         teamId = li.dataset.id;
         setCookie("teamId", li.dataset.id);
 
+        var selectList = wrapInputTeam.querySelector(".form-registration__select");
+        if (selectList) {
+          selectList.dataset.status = "hide";
+        }
+
       }
     }
   };
@@ -545,7 +644,9 @@ if (formReg) {
 
     if (ul) {
       for (var i = 0; i < ul.length; i++) {
-        ul[i].dataset.status = "hide";
+        if (ul[i].dataset.status = "show") {
+          ul[i].dataset.status = "hide";
+        }
       }
     }
     if (message) {
@@ -568,13 +669,6 @@ if (formReg) {
   };
 
 }
-
-
-
-
-
-
-
 
 
 

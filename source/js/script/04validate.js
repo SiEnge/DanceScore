@@ -34,6 +34,7 @@ function validateBtn(btn) {
   if (flagValidate) {
 
     //если такого performance нет, то отправляем на сервер новые данные
+    //---SET-PERFORMANCE-TITLE---//
     var input = wrapInputPerformance.querySelector(".form-registration__input");
     if (input.dataset.id == "0") {
         var data = {
@@ -43,39 +44,32 @@ function validateBtn(btn) {
           }
         };
         var jsonSetPerf = JSON.stringify(data);
-
-      //отправка нового названия
       getAjax(jsonSetPerf).then(function(response) {
         var jsonText = JSON.parse(response);
         var test = jsonText["performance_id"];
         setCookie("performanceId", test);
-      }).catch(function(error) {
-        // console.log("Error!!!");
       });
     }
 
-    //если такого team нет, то отправляем на сервер новые данные
+    //---SET-TEAM-TITLE---//
     var input = wrapInputTeam.querySelector(".form-registration__input");
     if (input.dataset.id == "0") {
-      var data = {
-        "set_performance_team":{
-          "performance_id": getCookie("performanceId"),
-          "team_id":"0"
-        }
-      };
-      var jsonSetTeam = JSON.stringify(data);
-
-      //отправка нового названия
-      getAjax(jsonSetTeam).then(function(response) {
+        var data = {
+          "set_team_title":{
+            "team_id":"0",
+            "team_title": input.value
+          }
+        };
+        var jsonSetTeamTitle = JSON.stringify(data);
+      getAjax(jsonSetTeamTitle).then(function(response) {
         var jsonText = JSON.parse(response);
-        var test = jsonText["performance_id"];
-        setCookie("teamId", test);
-      }).catch(function(error) {
-        // console.log("Error!!!");
+        var test = jsonText["set_team_title"];
+        setCookie("performanceId", test);
       });
     }
 
     //если такого performance нет, то отправляем на сервер новые данные
+    //---SET-ORGANIZATION-TITLE---//
     var input = wrapInputOrganization.querySelector(".form-registration__input");
     if (input.dataset.id == "0") {
         var data = {
@@ -85,19 +79,16 @@ function validateBtn(btn) {
           }
         };
         var jsonSetOrg = JSON.stringify(data);
-
-      //отправка нового названия
       getAjax(jsonSetOrg).then(function(response) {
         var jsonText = JSON.parse(response);
         var test = jsonText["organization_id"];
         setCookie("organizationId", test);
-      }).catch(function(error) {
-        // console.log("Error!!!");
       });
     }
 
     //обработка people
     if (!getCookie("people-id")) {
+      //---SET-PEOPLE-NAME---//
       var wrapInputDirector = document.querySelectorAll(".form-registration__wrap--director");
       for (var i = 0; i < wrapInputDirector.length; i++) {
         var surname = wrapInputDirector[i].querySelector(".js_inputSurname");
@@ -118,27 +109,29 @@ function validateBtn(btn) {
           var jsonText = JSON.parse(response);
           var test = jsonText["people_id"];
           setCookie("peopleId", test);
-        }).catch(function(error) {
-          // console.log("Error!!!");
         });
-
-
       }
-      // var wrapInputPeopleSur = document.querySelector(".js_inputSurname");
-      // var wrapInputPeopleLast = document.querySelector(".js_inputLastname");
-      // var wrapInputPeopleMiddle = document.querySelector(".js_inputMiddlename");
-
-      // var data = {
-      //   "set_people_name":{
-      //     "surname": wrapInputPeopleSur.querySelector(".form-registration__input").value,
-      //     "lastname": wrapInputPeopleLast.querySelector(".form-registration__input").value,
-      //     "middlename": wrapInputPeopleMiddle.querySelector(".form-registration__input").value,
-      //   }
-      // };
-      // var jsonSetPeople = JSON.stringify(data);
-
-
     }
+
+    //если такого team нет, то отправляем на сервер новые данные
+    var input = wrapInputTeam.querySelector(".form-registration__input");
+    //---SET-PERFORMANCE-TEAM---//
+    if (input.dataset.id == "0") {
+      var data = {
+        "set_performance_team":{
+          "performance_id": getCookie("performanceId"),
+          "team_id":"0"
+        }
+      };
+      var jsonSetTeam = JSON.stringify(data);
+      getAjax(jsonSetTeam).then(function(response) {
+        var jsonText = JSON.parse(response);
+        var test = jsonText["performance_id"];
+        setCookie("teamId", test);
+      });
+    }
+
+
 
     var contestId = getCookie("contestId");
     var performanceId = getCookie("performanceId");
@@ -147,9 +140,8 @@ function validateBtn(btn) {
     var teamId = getCookie("teamId");
     var peopleId = getCookie("peopleId");
     var resultError = [];
-// organizationId=1; nominationId=3;
 
-    //---SET-PERFORMANCE-CONTEST
+    //---SET-PERFORMANCE-CONTEST---//
     var data = {
       "set_performance_contest":{
         "performance_id": performanceId,
@@ -164,7 +156,7 @@ function validateBtn(btn) {
       }
     });
 
-    //---SET-PERFORMANCE-NOMINATION
+    //---SET-PERFORMANCE-NOMINATION---//
     var data = {
       "set_performance_nomination":{
         "performance_id": performanceId,
@@ -179,20 +171,20 @@ function validateBtn(btn) {
       }
     });
 
-    //---SET-TEAM-CITY
+    //---SET-TEAM-CITY---//
     var wrapInputCity = document.querySelector(".js_inputCity");
     var input = wrapInputCity.querySelector(".form-registration__input");
     var data = {
-      "set_team_сity":{
+      "set_team_city":{
         "team_id": teamId,
-        "team_sity": input.value
+        "team_city": input.value
       }
     };
     var jsonSetPerfNom = JSON.stringify(data);
     getAjax(jsonSetPerfNom).then(function(response) {
       var result = response;
       if (result == "ERROR") {
-        resultError.push("set_team_сity");
+        resultError.push("set_team_city");
       }
     });
 
@@ -212,6 +204,29 @@ function validateBtn(btn) {
       }
     });
 
+    //---SET-PERFORMANCE-DIRECTOR---//
+    var wrapInputDir = document.querySelector(".js_inputDirector");
+    var input = wrapInputCity.querySelector(".form-registration__input");
+    var data = {
+      "set_performance_director":{
+        "performance_id": performanceId,
+        "people_id": peopleId,
+        "director_title": input.value
+      }
+    };
+    var jsonSetPerfDir = JSON.stringify(data);
+    getAjax(jsonSetPerfDir).then(function(response) {
+      var result = response;
+      if (result == "ERROR") {
+        resultError.push("set_performance_director");
+      }
+    });
+
+
+
+
+
+    //вывод ошибок
     var resultMessage = document.querySelector(".form-registration__result")
 
     if (resultError.length > 0) {

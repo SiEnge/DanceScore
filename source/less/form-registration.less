@@ -4,6 +4,8 @@
   margin: 0;
   padding-top: 5px;
   margin-bottom: 20px;
+  // position: relative;
+  // z-index: 196;
   &[data-status="hide"] {
     display: none;
   }
@@ -59,13 +61,14 @@
   &[data-status="hide"] {
     visibility: hidden;
   }
-  &:hover .form-registration__select {
-    display: block;
-  }
-
-  &[data-arrow="one"]::before {
+  &::before {
     content: "";
     position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+  &[data-arrow="one"]::before {
     z-index: 8;
     right: 10px;
     top: 13px;
@@ -73,11 +76,24 @@
     height: 20px;
     background-image: url("../img/arrow_grey.svg");
     background-size: 15px 8px;
-
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
   }
+  // &[data-arrow="one"]::before {
+  //   content: "";
+  //   position: absolute;
+  //   background-color: transparent;
+  //   border: none;
+  //   z-index: 8;
+  //   right: 10px;
+  //   top: 13px;
+  //   width: 20px;
+  //   height: 20px;
+  //   background-image: url("../img/arrow_grey.svg");
+  //   background-size: 15px 8px;
+  //
+  //   background-repeat: no-repeat;
+  //   background-position: center;
+  //   cursor: pointer;
+  // }
   &[data-disabled="true"] {
     background-color: @light-grey;
   }
@@ -86,6 +102,23 @@
     color: @black;
   }
 }
+
+// .form-registration__input-btn {
+//   position: absolute;
+//   z-index: 8;
+//   right: 5px;
+//   top: 10px;
+//   width: 30px;
+//   height: 30px;
+//   background-image: url("../img/arrow_grey.svg");
+//   background-size: 15px 8px;
+//   background-color: transparent;
+//   border: none;
+//   padding: 0;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   cursor: pointer;
+// }
 
 .form-registration__label {
   position: relative;
@@ -132,6 +165,8 @@
     width: 50px;
   }
 }
+
+
 
 // .form-registration__buttonWrap {
 //   display: flex;
@@ -244,9 +279,13 @@
   overflow-y: scroll;
   &[data-status="hide"] {
     display: none;
+    // visibility: hidden;
+
   }
   &[data-status="show"] {
     display: block;
+    // visibility: visible;
+
   }
 }
 
@@ -258,9 +297,9 @@
   padding-left: 10px;
   padding-right: 10px;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
   p {
     margin: 0;
     padding-left: 30px;
@@ -280,6 +319,10 @@
     }
   }
 }
+//
+// .form-registration__input:focus + .form-registration__select {
+//   display: block;
+// }
 
 .form-registration__result {
   margin: 0;
