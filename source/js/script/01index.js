@@ -440,7 +440,6 @@ function setNote(input) {
 window.addEventListener("load", function() {
   var refereeForm = document.querySelector(".refereeForm");
   if (refereeForm) {
-    var json_user = createDataUser();
 
     var body = 'get_performance_info=';
     // var text = {
@@ -463,7 +462,7 @@ window.addEventListener("load", function() {
     // }
     var json = JSON.stringify(body);
 
-    getAjax(json_user).then(function(response) {
+    getAjax(createDataGetPeopleMyName()).then(function(response) {
       parseUser(response);
     }).catch(function(error) {
       console.log("Error!!!");

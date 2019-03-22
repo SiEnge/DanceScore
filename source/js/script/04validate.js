@@ -3,6 +3,9 @@
 function validateBtn(btn) {
   var form = btn.form;
   var inputWrap = form.querySelectorAll(".form-registration__input-wrap");
+  var inputPhone = form.querySelectorAll(".js_inputPhone");
+  var inputEmail = form.querySelectorAll(".js_inputEmail");
+  var inputTeamCount = form.querySelector(".js_inputTeamCount");
   var flagValidate = true;
   //проверка на заполненность полей
   for (var i = 0; i < inputWrap.length; i++) {
@@ -15,6 +18,14 @@ function validateBtn(btn) {
        }
      }
   }
+  // validate(input.validity.valid && String(Number(input.value)) != 0, input);
+
+  if (+inputTeamCount.value == 0) {
+    var wrap = inputTeamCount.parentElement;
+    wrap.dataset.validate = "error";
+    var flagValidate = false;
+  }
+
 
   //если все поля заполнены, то делаем следующие запросы:
   // проверка Performance и запрос set_performance_title (=performanceId)
@@ -206,7 +217,7 @@ function validateBtn(btn) {
 
     //---SET-PERFORMANCE-DIRECTOR---//
     var wrapInputDir = document.querySelector(".js_inputDirector");
-    var input = wrapInputCity.querySelector(".form-registration__input");
+    var input = wrapInputDir.querySelector(".form-registration__input");
     var data = {
       "set_performance_director":{
         "performance_id": performanceId,

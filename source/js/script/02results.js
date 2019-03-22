@@ -439,7 +439,7 @@ function parseResult(jsonText, counter, step) {
       nominantClone.querySelector(".nominant__category").style.backgroundColor = "hsl(" + hue + ", " + sat + "%, " + lit + "%)";
 
       //Цвет кнопки номинации. Если тон и насыщенность не определены, то берутся данные по дефолту
-      var color = json[jsonSort[i][0]].performance_age_category["age_category_color"].split(',');
+      var color = json[jsonSort[i][0]].performance_nomination["nomination_color"].split(',');
       var hue = (color[0]) ? color[0] : 0;
       var sat = (color[1]) ? color[1] : 100;
       var lit = (color[2]) ? color[2] : 50;
@@ -532,25 +532,21 @@ window.addEventListener("load", function() {
   var result = document.querySelector(".summarizing");
   if (result) {
     var load = document.querySelector(".page__loading");
-    var json_user = createDataUser();
-    var json_contest = createDataContest();
-    var json_performance = createDataPerformance();
+    // var json_performance = createDataPerformance();
 
-    getAjax(json_user).then(function(response) {
+    getAjax(createDataGetPeopleMyName()).then(function(response) {
       parseUser(response);
-
     }).catch(function(error) {
       console.log("Error!!!");
     });
 
-
-    getAjax(json_contest).then(function(response) {
+    getAjax(createDataGetContest()).then(function(response) {
       parseContest(response);
     }).catch(function(error) {
       console.log("Error!!!");
     });
 
-    getAjax(json_performance).then(function(response) {
+    getAjax(createDataGetPerformance()).then(function(response) {
       parseResult(response, 0, 5);
       load.dataset.status = "hide";
     }).catch(function(error) {
@@ -567,7 +563,7 @@ window.addEventListener("load", function() {
 var btnPrintDiploma = document.querySelector(".printing__button--diploma");
 
 if (btnPrintDiploma) {
-  btnPrintDiploma.addEventListener("click", function(event) {
+  btnPrintDiploma.onclick = function(event) {
     event.preventDefault();
 
     var json_diploma = createDataDiploma();
@@ -578,7 +574,7 @@ if (btnPrintDiploma) {
       console.log("Error!!!");
       console.log(error);
     });
-  });
+  };
 }
 
 
@@ -636,7 +632,7 @@ function parseDiploma(jsonText) {
   for (var key in json) {
     diplomaArr[i] = new Object();
 
-    if (!(json[key].performance_prize_manual == "0")) {
+    if (+json[key].performance_prize_manual != 0) {
       for (var j = 0; j < prizeItem.length; j++) {
         if (prizeItem[j].dataset.prizeId == json[key].performance_prize_manual) {
           diplomaArr[i].text = prizeItem[j].querySelector(".awards__name").innerHTML;
@@ -655,22 +651,39 @@ function parseDiploma(jsonText) {
         diplomaArr[i].text = "";
       }
     }
+    if (!diplomaArr[i].text) {
+      diplomaArr[i].text = "Приз";
+    }
     diplomaArr[i].style = "prize";
     i++;
 
-    diplomaArr[i] = new Object();
-    diplomaArr[i].text = json[key].performance_team_title;
-    diplomaArr[i].style = "team";
-    i++;
-    diplomaArr[i] = new Object();
-    diplomaArr[i].text = json[key].performance_title;
-    diplomaArr[i].style = "team";
-    i++;
-    diplomaArr[i] = new Object();
-    diplomaArr[i].text = json[key].performance_director;
-    diplomaArr[i].style = "director";
-    diplomaArr[i].pageBreak = "after";
-    i++;
+    //проверка и создание Объекта с "названием коллектива"
+    //если названия коллектива нет (=null), то объект не создается
+    if (+json[key].performance_team_title != 0) {
+      diplomaArr[i] = new Object();
+      diplomaArr[i].text = json[key].performance_team_title;
+      diplomaArr[i].style = "team";
+      i++;
+    }
+    //проверка и создание Объекта с "названием номера"
+    //если названия номера нет (=null), то объект не создается
+    if (+json[key].performance_title != 0) {
+      diplomaArr[i] = new Object();
+      diplomaArr[i].text = json[key].performance_title;
+      diplomaArr[i].style = "team";
+      i++;
+    }
+
+    //проверка и создание Объекта с "Руководителем"
+    //если руководителя нет (=null), то объект не создается
+    if (+json[key].performance_director != 0) {
+      diplomaArr[i] = new Object();
+      diplomaArr[i].text = json[key].performance_director;
+      diplomaArr[i].style = "director";
+      // diplomaArr[i].pageBreak = "after";
+      i++;
+    }
+    diplomaArr[i - 1].pageBreak = "after";
   }
 
   delete diplomaArr[i - 1].pageBreak;
@@ -680,14 +693,8 @@ function parseDiploma(jsonText) {
 
 
 
-
-
-
-
 //При прокрутке запрос данных о номинантах
 // в соответствии с отсортированным массивом и количеством уже показанных номинантов
-
-
 var result = document.querySelector(".summarizing");
 if (result) {
 

@@ -150,7 +150,9 @@ function createPeople() {
    return JSON.stringify(data);
 }
 
-function createDataUser() {
+
+
+function createDataGetPeopleMyName() {
   var data = {
     "get_data": {
       "people_my_name": "" //имя пользователя
@@ -159,7 +161,7 @@ function createDataUser() {
   return JSON.stringify(data);
 }
 
-function createDataContest() {
+function createDataGetContest() {
   var data = {
     "get_data": {
       "contest_id": "0",

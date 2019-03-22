@@ -178,16 +178,32 @@ window.addEventListener("load", function() {
 
 
   var test = document.cookie;
+  var test2 = window.location.href;
+  var test3 = parseInt(test2.split('id=')[1]);
+  // parseInt(str.split('topic=')[1])
+// лист голосования
+// левый название номера
+// еоху критерии
+// лист фамили судьи
+
+// сортировка по turn_id
+
   if (formReg) {
+    var load = document.querySelector(".page__loading");
+
     // var contestId;
     //запрос данных о всех мероприятиях
-    var cookieId = getCookie("contest-id");
+    var href = window.location.href;
+    var cookieId = parseInt(href.split('id=')[1]);
+    // var cookieId = getCookie("contest-id");
     if (cookieId) {
       setCookie("contestId", cookieId);
 
       var jsonContestAll = createDataContestAll(cookieId, "1");
       getAjax(jsonContestAll).then(function(response) {
         parseRegContestCookie(response);
+        load.dataset.status = "hide";
+
       }).catch(function(error) {
         // console.log("Error!!!");
       });
@@ -195,6 +211,8 @@ window.addEventListener("load", function() {
       var jsonContestAll = createDataContestAll("0", "all");
       getAjax(jsonContestAll).then(function(response) {
         parseRegContest(response);
+        load.dataset.status = "hide";
+
       }).catch(function(error) {
         // console.log("Error!!!");
       });
@@ -235,34 +253,64 @@ if (formReg) {
 
 
 
-    document.onclick = function(event) {
+    formReg.onclick = function(event) {
       event.preventDefault();
 
       var target = event.target;
+      var selectLists = document.querySelectorAll(".form-registration__select");
 
-      if (!target.classList.contains("form-registration__optionText") && !target.classList.contains("form-registration__input")) {
-        var selectLists = document.querySelectorAll(".form-registration__select");
+      if (target.classList.contains("form-registration__btnOpen")) {
+        var wrapClass = target.parentElement.classList;
+        // var selectLists = document.querySelectorAll(".form-registration__select");
         for (var i = 0; i < selectLists.length; i++) {
-          if (selectLists[i].dataset.status == "show") {
-            selectLists[i].dataset.status = "hide";
+          if (selectLists[i].parentElement.classList == wrapClass) {
+
+            if (selectLists[i].dataset.status == "hide") {
+              target.dataset.status = "open";
+              selectLists[i].dataset.status = "show";
+            } else {
+              target.dataset.status = "close";
+              selectLists[i].dataset.status = "hide";
+            }
           }
         }
+        return;
+      }
+
+      if (!target.classList.contains("form-registration__optionText") && !target.classList.contains("form-registration__input") && !target.classList.contains("form-registration__btnOpen")) {
+
+        for (var i = 0; i < selectLists.length; i++) {
+          var wrap = selectLists[i].parentElement;
+          var btn = wrap.querySelector(".form-registration__btnOpen");
+          if (selectLists[i].dataset.status == "show") {
+            selectLists[i].dataset.status = "hide";
+            btn.dataset.status = "close";
+          }
+        }
+        return;
       }
 
       if (target.classList.contains("form-registration__input")) {
         var wrapClass = target.parentElement.classList;
-        var selectLists = document.querySelectorAll(".form-registration__select");
+        // var selectLists = document.querySelectorAll(".form-registration__select");
         for (var i = 0; i < selectLists.length; i++) {
+          var wrap = target.parentElement;
+          var btn = wrap.querySelector(".form-registration__btnOpen");
           if (selectLists[i].dataset.status == "show" && selectLists[i].parentElement.classList != wrapClass) {
             selectLists[i].dataset.status = "hide";
+            btn.dataset.status = "close";
           }
         }
+        return;
       }
+
     };
 
 
   //обработка событий на поле Название соревнований
   var wrapInputContest = document.querySelector(".js_inputContest");
+  var btnContest = wrapInputContest.querySelector(".form-registration__btnOpen");
+  var inputContest = wrapInputContest.querySelector(".form-registration__input");
   //обработка ввода текст и показ подхадящий вариантов
   wrapInputContest.oninput = function(event) {
     var target = event.target;
@@ -272,10 +320,12 @@ if (formReg) {
   };
 
   // ставим обработчики на фазе перехвата, последний аргумент true
-  wrapInputContest.addEventListener("focus", function() {
+
+  inputContest.addEventListener("focus", function() {
     var selectList = wrapInputContest.querySelector(".form-registration__select");
     if (selectList) {
       selectList.dataset.status = "show";
+      btnContest.dataset.status = "open";
     }
   }, true);
 
@@ -305,6 +355,7 @@ if (formReg) {
       var selectList = wrapInputContest.querySelector(".form-registration__select");
       if (selectList) {
         selectList.dataset.status = "hide";
+        btnContest.dataset.status = "close";
       }
 
       fieldTeam.dataset.status = "show";
@@ -350,16 +401,16 @@ if (formReg) {
   wrapInputContest.onchange = function() {
     var ul = formReg.querySelectorAll(".form-registration__select");
     var message = formReg.querySelectorAll(".form-registration__message");
-    var input = wrapInputContest.querySelector(".form-registration__input");
+    // var input = wrapInputContest.querySelector(".form-registration__input");
 
-    if (ul) {
-      for (var i = 0; i < ul.length; i++) {
-        if (ul[i].dataset.status = "show") {
-          ul[i].dataset.status = "hide";
-        }
-      }
-    }
-
+    // if (ul) {
+    //   for (var i = 0; i < ul.length; i++) {
+    //     if (ul[i].dataset.status = "show") {
+    //       ul[i].dataset.status = "hide";
+    //     }
+    //   }
+    // }
+    //
     if (message) {
       for (var i = 0; i < message.length; i++) {
         message[i].dataset.status = "hide";
@@ -367,11 +418,11 @@ if (formReg) {
     }
 
     for (var i = 0; i < contestList.length; i++) {
-      if (contestList[i][1] == input.value) {
-        input.dataset.id = contestList[i][0];
+      if (contestList[i][1] == inputContest.value) {
+        inputContest.dataset.id = contestList[i][0];
         break;
       } else {
-        input.dataset.id = "0";
+        inputContest.dataset.id = "0";
       }
     }
     setCookie("contestId", input.dataset.id);
@@ -379,6 +430,8 @@ if (formReg) {
 
   //обработка событий на поле Название номинаций
   var wrapInputNomination = document.querySelector(".js_inputNomination");
+  var inputNomination = wrapInputNomination.querySelector(".form-registration__input");
+  var btnNomination = wrapInputNomination.querySelector(".form-registration__btnOpen");
   //обработка ввода текст и показ подхадящий вариантов
   wrapInputNomination.oninput = function(event) {
     var target = event.target;
@@ -388,10 +441,11 @@ if (formReg) {
   };
 
   // ставим обработчики на фазе перехвата, последний аргумент true
-  wrapInputNomination.addEventListener("focus", function() {
+  inputNomination.addEventListener("focus", function() {
     var selectList = wrapInputNomination.querySelector(".form-registration__select");
     if (selectList) {
       selectList.dataset.status = "show";
+      btnNomination.dataset.status = "open";
     }
   }, true);
 
@@ -409,6 +463,7 @@ if (formReg) {
       var selectList = wrapInputNomination.querySelector(".form-registration__select");
       if (selectList) {
         selectList.dataset.status = "hide";
+        btnNomination.dataset.status = "close";
       }
     }
   };
@@ -418,13 +473,13 @@ if (formReg) {
     var message = formReg.querySelectorAll(".form-registration__message");
     var input = wrapInputNomination.querySelector(".form-registration__input");
 
-    if (ul) {
-      for (var i = 0; i < ul.length; i++) {
-          if (ul[i].dataset.status = "show") {
-            ul[i].dataset.status = "hide";
-          }
-      }
-    }
+    // if (ul) {
+    //   for (var i = 0; i < ul.length; i++) {
+    //       if (ul[i].dataset.status = "show") {
+    //         ul[i].dataset.status = "hide";
+    //       }
+    //   }
+    // }
     if (message) {
       for (var i = 0; i < message.length; i++) {
         message[i].dataset.status = "hide";
@@ -447,7 +502,9 @@ if (formReg) {
 
   //обработка событий на поле Название номера
   var wrapInputPerformance = document.querySelector(".js_inputPerformance");
-  //обработка ввода текст и показ подхадящий вариантов
+  var inputPerformance = wrapInputPerformance.querySelector(".form-registration__input");
+  var btnPerformance = wrapInputPerformance.querySelector(".form-registration__btnOpen");
+  //обработrка ввода текст и показ подхадящий вариантов
   wrapInputPerformance.oninput = function(event) {
     var target = event.target;
     if (target.classList.contains("form-registration__input")) { //если событие = ввод в инпут
@@ -456,10 +513,11 @@ if (formReg) {
   };
 
   // ставим обработчики на фазе перехвата, последний аргумент true
-  wrapInputPerformance.addEventListener("focus", function() {
+  inputPerformance.addEventListener("focus", function() {
     var selectList = wrapInputPerformance.querySelector(".form-registration__select");
     if (selectList) {
       selectList.dataset.status = "show";
+      btnPerformance.dataset.status = "open";
     }
   }, true);
 
@@ -479,6 +537,7 @@ if (formReg) {
       var selectList = wrapInputPerformance.querySelector(".form-registration__select");
       if (selectList) {
         selectList.dataset.status = "hide";
+        btnPerformance.dataset.status = "close";
       }
     }
   };
@@ -488,13 +547,13 @@ if (formReg) {
     var message = formReg.querySelectorAll(".form-registration__message");
     var input = wrapInputPerformance.querySelector(".form-registration__input");
 
-    if (ul) {
-      for (var i = 0; i < ul.length; i++) {
-        if (ul[i].dataset.status = "show") {
-          ul[i].dataset.status = "hide";
-        }
-      }
-    }
+    // if (ul) {
+    //   for (var i = 0; i < ul.length; i++) {
+    //     if (ul[i].dataset.status = "show") {
+    //       ul[i].dataset.status = "hide";
+    //     }
+    //   }
+    // }
     if (message) {
       for (var i = 0; i < message.length; i++) {
         message[i].dataset.status = "hide";
@@ -515,6 +574,8 @@ if (formReg) {
 
   //обработка событий на поле Название учреждения
   var wrapInputOrganization = document.querySelector(".js_inputOrganization");
+  var inputOrganization = wrapInputOrganization.querySelector(".form-registration__input");
+  var btnOrganization = wrapInputOrganization.querySelector(".form-registration__btnOpen");
   //обработка ввода текст и показ подхадящий вариантов
   wrapInputOrganization.oninput = function(event) {
     var target = event.target;
@@ -524,10 +585,11 @@ if (formReg) {
   };
 
   // ставим обработчики на фазе перехвата, последний аргумент true
-  wrapInputOrganization.addEventListener("focus", function() {
+  inputOrganization.addEventListener("focus", function() {
     var selectList = wrapInputOrganization.querySelector(".form-registration__select");
     if (selectList) {
       selectList.dataset.status = "show";
+      btnOrganization.dataset.status = "open";
     }
   }, true);
 
@@ -553,6 +615,7 @@ if (formReg) {
         var selectList = wrapInputOrganization.querySelector(".form-registration__select");
         if (selectList) {
           selectList.dataset.status = "hide";
+          btnOrganization.dataset.status = "close";
         }
 
       }
@@ -563,14 +626,14 @@ if (formReg) {
     var ul = formReg.querySelectorAll(".form-registration__select");
     var message = formReg.querySelectorAll(".form-registration__message");
     var input = wrapInputOrganization.querySelector(".form-registration__input");
-
-    if (ul) {
-      for (var i = 0; i < ul.length; i++) {
-        if (ul[i].dataset.status = "show") {
-          ul[i].dataset.status = "hide";
-        }
-      }
-    }
+    //
+    // if (ul) {
+    //   for (var i = 0; i < ul.length; i++) {
+    //     if (ul[i].dataset.status = "show") {
+    //       ul[i].dataset.status = "hide";
+    //     }
+    //   }
+    // }
 
     if (message) {
       for (var i = 0; i < message.length; i++) {
@@ -592,6 +655,8 @@ if (formReg) {
 
   //обработка событий на поле Название команд
   var wrapInputTeam = document.querySelector(".js_inputTeamName");
+  var inputTeam = wrapInputTeam.querySelector(".form-registration__input");
+  var btnTeam = wrapInputTeam.querySelector(".form-registration__btnOpen");
   //обработка ввода текст и показ подхадящий вариантов
   wrapInputTeam.oninput = function(event) {
     var target = event.target;
@@ -601,10 +666,11 @@ if (formReg) {
   };
 
   // ставим обработчики на фазе перехвата, последний аргумент true
-  wrapInputTeam.addEventListener("focus", function() {
+  inputTeam.addEventListener("focus", function() {
     var selectList = wrapInputTeam.querySelector(".form-registration__select");
     if (selectList) {
       selectList.dataset.status = "show";
+      btnTeam.dataset.status = "open";
     }
   }, true);
 
@@ -630,6 +696,7 @@ if (formReg) {
         var selectList = wrapInputTeam.querySelector(".form-registration__select");
         if (selectList) {
           selectList.dataset.status = "hide";
+          btnTeam.dataset.status = "close";
         }
 
       }
@@ -642,13 +709,13 @@ if (formReg) {
     var input = wrapInputTeam.querySelector(".form-registration__input");
 
 
-    if (ul) {
-      for (var i = 0; i < ul.length; i++) {
-        if (ul[i].dataset.status = "show") {
-          ul[i].dataset.status = "hide";
-        }
-      }
-    }
+    // if (ul) {
+    //   for (var i = 0; i < ul.length; i++) {
+    //     if (ul[i].dataset.status = "show") {
+    //       ul[i].dataset.status = "hide";
+    //     }
+    //   }
+    // }
     if (message) {
       for (var i = 0; i < message.length; i++) {
         message[i].dataset.status = "hide";
@@ -693,6 +760,9 @@ function searchInput(input, inputWrap, optionText) {
   if (message) inputWrap.removeChild(message);
   inputWrap.appendChild(createSelectArr(listResult));
 }
+
+
+
 
 
 
